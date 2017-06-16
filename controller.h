@@ -15,6 +15,11 @@ public:
 
 };
 
+class VoteController{};
+class UserController{};
+class GroupController{};
+class Timer{};
+
 ApplicationController::ApplicationController() {
 }
 

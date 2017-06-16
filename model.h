@@ -61,5 +61,4 @@ void Vote::deleteVote(int voteID) {
 
 
 
-
 #endif //SEHW4_MODEL_H
