@@ -1,0 +1,3 @@
+/Users/ChoiJunsung/CLionProjects/sehw4/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/ChoiJunsung/CLionProjects/sehw4/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/ChoiJunsung/CLionProjects/sehw4/cmake-build-debug/CMakeFiles/sehw4.dir
