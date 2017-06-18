@@ -5,12 +5,19 @@
 #ifndef SEHW4_MODEL_H
 #define SEHW4_MODEL_H
 #include <clocale>
+#include <string>
+#include <list>
+
+using namespace std;
 
 class Vote {
 private:
     int voteID;
     int groupID;
     int voteCreatorID;
+    string title;
+    list<string> option;
+    list<int> count;
     char* startTime, endTime;
 
 public :
@@ -27,13 +34,11 @@ public :
 class User {
 private:
     int userID;
-    int groupId = 0;
-    char* userName;
-    char* userRealName;
-    char* email;
-    char* address;
-    char* idCardNumber;
-    bool isCreator = false;
+    string userName;
+    string userRealName;
+    string email;
+    string address;
+    string idCardNumber;
     bool loginStatus = false;
 
 public:
@@ -42,22 +47,34 @@ public:
     bool checkUserName(char* userName);
     bool changeUserStatus();
     bool checkUserPermission();
-    void removeGroupFromUser();
-    int getGroupID();
     void userJoinGroup(int groupID);
     int getUserID();
 };
 
-Vote::Vote() {}
+class GroupMember : public User {
+private:
+    int groupID = 0;
+    bool isCreator = false;
 
-Vote Vote::getVote(int voteID) {
-    return NULL;
-}
+public:
+    void removeGroupFromUser();
+    int getGroupID();
+};
 
-void Vote::deleteVote(int voteID) {
+class Group{
+private:
+    int groupID;
+    int groupCreatorID;
+    list<int> groupMemberList;
+    string groupName;
 
-}
+public:
+    void removeUserFromGroup(int userID);
+    list<int> getGroupInfo();
+    int getGroupId();
+    string getGroupName();
 
+};
 
 
 
