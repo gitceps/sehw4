@@ -55,6 +55,7 @@ void GroupViewUI::updateUI(){}
 
 //User 객체를 생성하는 것이 아닌 GroupMember 객체를 생성해야함
 void GroupViewUI::viewMyGroup(){
+
     GroupMember GroupMember;
     GroupMember.getGroupID();
     Group Group;

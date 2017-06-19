@@ -244,9 +244,7 @@ void GroupController::joinGroup(string userName, int groupID){
         //Row row;
         if (res) {
             if(res.num_rows() != 0) {
-                cout << res[0]["groupName"] << endl;
-                //row = res.at(0);
-                //groupName = res[0]["groupName"];
+
             }
             else {
                 cout << "해당하는 그룹 ID가 없습니다" << endl;
