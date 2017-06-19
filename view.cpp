@@ -141,7 +141,15 @@ void GroupViewUI::displayUI(){
 }
 void GroupViewUI::userInput(){}
 
-void VoteDetailUI::selectItem(){}
+void VoteDetailUI::selectItem(){
+    int voteID, index;
+    cout << "투표할 안건을 선택하세요" << endl;
+    cin >> voteID;
+    cout << "투표할 선택지 번호를 입력하세요" << endl;
+    cin >> index;
+    VoteController* voteController = VoteController::getInstance();
+    voteController->saveItemData(voteID, index);
+}
 void VoteDetailUI::selectDelete(){}
 void VoteDetailUI::displayUI(){}
 void VoteDetailUI::userInput(){}

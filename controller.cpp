@@ -356,8 +356,64 @@ VoteController* VoteController::getInstance(){
     } else
         return vcInstance;
 }
+
+//TODO 현재 그룹에서의 투표만 조회할 수 있다
 list<Vote> VoteController::showOngoingVote(){
     list<Vote> Vote;
+
+    Connection con(true);
+    try {
+        con.connect(DBNAME, SERVER, USER, PASSWORD);
+
+        UserController* userController = UserController::getInstance();
+        string userName = userController->getCurrentUser()->getUserName();
+        if(userController->getCurrentUser() == NULL) {
+            cout << "로그인을 먼저 해주세요" << endl;
+            return Vote;
+        }
+
+        string temp = "select distinct groupID from sys.user, sys.group where (user_groupID = groupName) and userName = '";
+        temp += userName;
+        temp += "'";
+        cout << temp << endl;
+
+        Query query = con.query(temp);
+        mysqlpp::StoreQueryResult res = query.store();
+        if (res) {
+            if(res.num_rows() == 0)
+                return Vote;
+
+        } else {
+            cerr << query.error() << endl;
+        }
+
+        string temp2 = "select * from sys.vote where groupID = '";
+        temp2 += res[0]["groupID"].data();
+        temp2 += "'";
+        cout << temp2 << endl;
+
+        Query query2 = con.query(temp2);
+        mysqlpp::StoreQueryResult res2 = query2.store();
+
+        if (res2) {
+            // Display header
+            cout.setf(ios::left);
+            cout << "  voteID" << setw(19) << "   Title" << setw(19) << " Creator " << setw(19) << "options" << endl << endl;
+
+            // Get each row in result set, and print its contents
+            for (size_t i = 0; i < res2.num_rows(); ++i) {
+                cout << "  " << res2[i]["voteID"] <<  setw(20) << "   " << res2[i]["title"] << setw(20) << "   "
+                     << res2[i]["voteCreatorID"] << setw(20) << "  " << res2[i]["optionNum"] << endl;
+            }
+            cout << "============================" << endl;
+        }
+        else {
+            cerr << query2.error() << endl;
+        }
+    } catch(Exception &e) {
+        cout << e.what() << endl;
+    }
+
     return Vote;
 }
 list<Vote> VoteController::showScheduleVote(){
@@ -375,9 +431,56 @@ Vote VoteController::getVote(int voteID){
     return Vote;
 }
 
-void VoteController::saveItemData(int voteID, int index){}
+void VoteController::saveItemData(int voteID, int index){
+    Connection con(true);
+    try {
+        //TODO voteItemID를 user에게 어떻게 알려 줄것인지?
+        con.connect(DBNAME, SERVER, USER, PASSWORD);
+        string temp = "update sys.voteItem set count = count + 1 where voteID = '";
+        temp += to_string(voteID);
+        temp += "' and voteItemID = '";
+        temp += to_string(index);
+        temp += "'";
+        cout << temp << endl;
 
-void VoteController::deleteVote(int voteID){}
+        Query query = con.query(temp);
+        mysqlpp::StoreQueryResult res = query.store();
+
+        if (res) {
+        } else {
+            cerr << query.error() << endl;
+        }
+
+    } catch (Exception &e) {
+            cout << e.what() << endl;
+    }
+
+}
+
+void VoteController::deleteVote(int voteID){
+    Connection con(true);
+    try {
+        con.connect(DBNAME, SERVER, USER, PASSWORD);
+        //cout << "connected to database" << endl;
+
+        string temp = "delete from vote where voteID = '";
+        temp += voteID;
+        temp += "'";
+        //cout << temp << endl;
+
+        Query query = con.query(temp);
+        mysqlpp::StoreQueryResult res = query.store();
+
+        if (res) {
+        } else {
+            cerr << query.error() << endl;
+        }
+    }  catch (Exception &e) {
+        cout << e.what() << endl;
+    }
+
+    cout << "투표 삭제가 완료 되었습니다" << endl;
+}
 
 list<Vote> VoteController::getTerminatedVoteDetails(){
     list<Vote> Vote;
@@ -391,7 +494,9 @@ list<Vote> VoteController::getScheduledVoteDetails(){
     list<Vote> Vote;
     return Vote;
 }
-void VoteController::checkVote(){}
+void VoteController::checkVote(){
+
+}
 
 void VoteController::showVoteData(){
     AddVoteUI AddVoteUI;
@@ -406,7 +511,7 @@ void VoteController::addNewVote(string voteTitle, int optionNum, list<string> op
     try {
         con.connect(DBNAME, SERVER, USER, PASSWORD);
         //TODO 여러개의 쿼리문 구현
-        string temp = "select distinct groupID from sys.user, sys.group where (user_groupID = groupName) and  userName = '";
+        string temp = "select distinct groupID from sys.user, sys.group where (user_groupID = groupName) and userName = '";
         temp += userName;
         temp += "'";
         cout << temp << endl;
@@ -422,7 +527,8 @@ void VoteController::addNewVote(string voteTitle, int optionNum, list<string> op
         }
 
         //genderate random vote ID
-        int voteID = (random() % 1000);
+        srand(time(NULL));
+        int voteID = (rand() % 1000);
 
         string temp2 = "insert into sys.vote(voteID, groupID, voteCreatorID, startTime, title, optionNum, endTime) values ('";
 
