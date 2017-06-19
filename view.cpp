@@ -139,8 +139,8 @@ void UserViewUI::login(){
     cin >> userName;
     cout << "Password를 입력하세요" << endl;
     cin >> psw;
-    UserController UserController;
-    UserController.validateUserInfo(userName,psw);
+    UserController *userController = UserController::getInstance();
+    userController->validateUserInfo(userName,psw);
 
 }
 
@@ -148,8 +148,8 @@ void UserViewUI::logout(){
     int userID;
     User User;
     userID = User.getUserID();
-    UserController UserController;
-    UserController.deleteUserSession(userID);
+    UserController *userController = UserController::getInstance();
+    userController->deleteUserSession(userID);
 
 }
 void UserViewUI::showLoginResultMessage(){
@@ -165,8 +165,8 @@ void UserViewUI::requestCreateUser(){
     cin >> num;
     switch (num){
         case 1: {
-            UserController UserController;
-            UserController.createUser();
+            UserController* userController;
+            userController->createUser();
             break;
         }
         case 2: {
@@ -198,12 +198,12 @@ void UserViewUI::userDataInput(){
     cout << "주소를 입력하세요" << endl;
     cin >> address;
 
-    UserController UserController;
-    overlapChk = UserController.getOverlapCheck(userName);
+    UserController* userController = UserController::getInstance();
+    overlapChk = userController->getOverlapCheck(userName);
     //overlapchk가 1이면 중복
     if (!overlapChk){
         cout << "회원가입이 완료되었습니다" << endl;
-        UserController.setUserData(userID, userName, psw, userRName,email,address,icn);
+        userController->setUserData(userID, userName, psw, userRName,email,address,icn);
     }
     else
         overlapError();
@@ -216,17 +216,24 @@ void UserViewUI::overlapError(){
 
 void UserViewUI::requestDeleteUser(){
     int num;
-    int userID = 1;
-    UserController UserController;
-    UserController.getInstance();
+    UserController *uc = UserController::getInstance();
+    if (uc->getCurrentUser() == NULL) {
+        cout << "로그인을 먼저 해주세요" << endl;
+        return;
+    }
+    string userName = uc->getCurrentUser()->getUserName();
+
+    cout << "current UserName : " << userName << endl;
+
     cout << "회원탈퇴를 계속 잔행하시겠습니까?" << endl;
     cout << "1. 계속 진행" << endl;
     cout << "2. 중단" << endl;
     cout << "*입력 선택 : ";
     cin >> num;
-    switch (num){
+    switch (num) {
         case 1: {
-            UserController.deleteUser(userID);
+            uc->deleteUser(userName);
+            ApplicationController::getInstance()->terminateProcess();
             break;
         }
         case 2: {
@@ -236,6 +243,7 @@ void UserViewUI::requestDeleteUser(){
             break;
         }
     }
+
 }
 
 void UserViewUI::displayUI(){}

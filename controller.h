@@ -15,17 +15,18 @@ using namespace std;
 class UserController{
 private:
     User *currentUser;
-    UserController *UCInstance;
+    static UserController *UCInstance;
+    UserController();
 public:
-    UserController getInstance();
-    User getCurrentUser();
+    static UserController* getInstance();
+    User* getCurrentUser();
     bool isValidUser(string userID, string password);
     void validateUserInfo(string userName, string password);
     void deleteUserSession(int userID);
     void createUser();
     bool getOverlapCheck(string userName);
     void setUserData(string userID, string userName, string password, string userRealName,string email, string address, string idCardNumber);
-    void deleteUser(int userID);
+    void deleteUser(string userName);
 };
 
 class GroupController{

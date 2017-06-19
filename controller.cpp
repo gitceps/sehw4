@@ -6,8 +6,6 @@
 #include "view.h"
 
 #include <iostream>
-#include <cstdlib>
-#include <cstring>
 #include <mysql++/mysql++.h>
 using namespace std;
 using namespace mysqlpp;
@@ -18,9 +16,15 @@ using namespace mysqlpp;
 #define PASSWORD ""
 
 //UserController
-UserController UserController::getInstance(){
-    UCInstance = new UserController;
-    return *UCInstance;
+UserController* UserController::UCInstance = NULL;
+UserController::UserController() {
+    currentUser = NULL;
+}
+UserController* UserController::getInstance(){
+    if(UCInstance == NULL) {
+        UCInstance = new UserController();
+    } else
+        return UCInstance;
 }
 
 bool UserController::isValidUser(string userName, string password){
@@ -70,8 +74,8 @@ void UserController::validateUserInfo(string userName, string password) {
         return;
 }
 
-User UserController::getCurrentUser() {
-    return *currentUser;
+User* UserController::getCurrentUser() {
+    return currentUser;
 }
 
 void UserController::deleteUserSession(int userID){
@@ -152,8 +156,29 @@ void UserController::setUserData(string userID, string userName, string password
 
 }
 
-void UserController::deleteUser(int userID){
+void UserController::deleteUser(string userName){
+    Connection con(true);
+    try {
+        con.connect(DBNAME, SERVER, USER, PASSWORD);
+        //cout << "connected to database" << endl;
 
+        string temp = "delete from user where userName = '";
+        temp += userName;
+        temp += "'";
+        cout << temp << endl;
+
+        Query query = con.query(temp);
+        mysqlpp::StoreQueryResult res = query.store();
+
+        if (res) {
+        } else {
+            cerr << query.error() << endl;
+        }
+    }  catch (Exception &e) {
+        cout << e.what() << endl;
+    }
+
+    cout << "회원 탈퇴가 완료 되었습니다" << endl;
 
 }
 

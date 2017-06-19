@@ -24,7 +24,7 @@ void mainmenuController(int num, int action){
                     UIUI.requestCreateUser();
                     break;
                 case 2:
-                    UIUI.userInput();
+                    UIUI.requestDeleteUser();
                     break;
             }
             break;
@@ -93,6 +93,9 @@ void mainmenuController(int num, int action){
                     break;
             }
             break;
+        case 8:
+            ApplicationController::getInstance()->terminateProcess();
+            break;
     }
 }
 
@@ -143,8 +146,8 @@ void innermainveiwUI(int num){
 
             break;
         case 8:
+            mainmenuController(num, -1);
             break;
-
     }
 }
 
@@ -174,7 +177,9 @@ int main() {
      cout << "Delta t2-t1: "
                << std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1).count()
                << " nanoseconds" << std::endl;*/
-    mainviewUI();
+    while(true) {
+        mainviewUI();
+    }
 }
 
 
