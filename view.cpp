@@ -30,7 +30,7 @@ void VoteViewUI::selectVote(){
 
 void VoteViewUI::displayUI(){
     cout << "4.1 현재 진행 중인 투표 리스트" << endl;
-    cout << "4.2 회원탈퇴" << endl;
+    cout << "4.2 투표" << endl;
     cout << "4.3 향후 진행 예정인 투표 리스트" << endl;
     cout << "4.4 종료된 투표리스트" << endl;
     cout << "*입력 선택 : ";
