@@ -211,7 +211,7 @@ void GroupController::showAllGroup(){
             for (size_t i = 0; i < res.num_rows(); ++i) {
                 cout << "  " << res[i]["groupID"] <<  setw(20) << "   " << res[i]["groupName"] << setw(20) << "   " << res[i]["groupCreatorID"]<< endl;
             }
-            cout << "==========================" << endl;
+            cout << "============================" << endl;
         }
         else {
             cerr << query.error() << endl;
@@ -227,6 +227,54 @@ void GroupController::joinGroup(string userName, int groupID){
     if (currentUser == NULL) {
         cout << "로그인을 먼저 해주세요" << endl;
         return;
+    }
+    Connection con(true);
+    try {
+        con.connect(DBNAME, SERVER, USER, PASSWORD);
+        //cout << "connected to database" << endl;
+
+        string temp = "select groupName from sys.group where groupID = '";
+        temp += to_string(groupID);
+        temp += "'";
+        cout << temp << endl;
+
+        Query query = con.query(temp);
+        mysqlpp::StoreQueryResult res = query.store();
+
+        //Row row;
+        if (res) {
+            if(res.num_rows() != 0) {
+                cout << res[0]["groupName"] << endl;
+                //row = res.at(0);
+                //groupName = res[0]["groupName"];
+            }
+            else {
+                cout << "해당하는 그룹 ID가 없습니다" << endl;
+                return;
+            }
+        }
+        else {
+            cerr << query.error() << endl;
+            return;
+        }
+
+        string temp2 = "update sys.user set user_groupID = '";
+        temp2  += res[0]["groupName"].data();
+        temp2  += "' where userName = '";
+        temp2 += userName;
+        temp2 += "'";
+        cout << temp2 << endl;
+
+        Query query2 = con.query(temp2);
+        mysqlpp::StoreQueryResult res2 = query2.store();
+        if (res2) {
+
+        } else {
+            cerr << query2.error() << endl;
+            return;
+        }
+    } catch(Exception &e) {
+        cout << e.what() << endl;
     }
 }
 

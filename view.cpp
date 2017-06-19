@@ -66,8 +66,15 @@ void GroupViewUI::showAllGroupList(){
     groupController->showAllGroup();
 }
 void GroupViewUI::joinGroup(){
-    string userName;
-    int groupID;
+    UserController* userController = UserController::getInstance();
+    if(userController->getCurrentUser() == NULL) {
+        cout << "로그인을 먼저 해주세요" << endl;
+        return;
+    }
+    string userName = userController->getCurrentUser()->getUserName();
+    int groupID = 0;
+    cout << "가입할 그룹 ID를 입력해주세요" << endl;
+    cin >> groupID;
     GroupController* groupController = GroupController::getInstance();
     groupController->joinGroup(userName, groupID);
 }
@@ -80,6 +87,11 @@ void GroupViewUI::requestCreateGroup(){
     cin >> num;
     switch (num){
         case 1: {
+            UserController* userController = UserController::getInstance();
+            if(userController->getCurrentUser() == NULL) {
+                cout << "로그인을 먼저 해주세요" << endl;
+                return;
+            }
             GroupController* groupController = GroupController::getInstance();
             groupController->createGroup();
             break;
@@ -166,7 +178,7 @@ void UserViewUI::requestCreateUser(){
     cin >> num;
     switch (num){
         case 1: {
-            UserController* userController;
+            UserController* userController = UserController::getInstance();
             userController->createUser();
             break;
         }
