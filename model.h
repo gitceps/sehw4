@@ -44,7 +44,7 @@ private:
 public:
     User();
     void authenticateUser();
-    bool checkUserName(char* userName);
+    bool checkUserName(string userName);
     bool changeUserStatus();
     bool checkUserPermission();
     void userJoinGroup(int groupID);

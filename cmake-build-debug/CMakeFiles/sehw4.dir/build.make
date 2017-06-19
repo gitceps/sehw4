@@ -81,33 +81,9 @@ CMakeFiles/sehw4.dir/main.cpp.o.provides: CMakeFiles/sehw4.dir/main.cpp.o.requir
 CMakeFiles/sehw4.dir/main.cpp.o.provides.build: CMakeFiles/sehw4.dir/main.cpp.o
 
 
-CMakeFiles/sehw4.dir/aa.cpp.o: CMakeFiles/sehw4.dir/flags.make
-CMakeFiles/sehw4.dir/aa.cpp.o: ../aa.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/ChoiJunsung/Downloads/sehw4-master/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/sehw4.dir/aa.cpp.o"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sehw4.dir/aa.cpp.o -c /Users/ChoiJunsung/Downloads/sehw4-master/aa.cpp
-
-CMakeFiles/sehw4.dir/aa.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sehw4.dir/aa.cpp.i"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/ChoiJunsung/Downloads/sehw4-master/aa.cpp > CMakeFiles/sehw4.dir/aa.cpp.i
-
-CMakeFiles/sehw4.dir/aa.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sehw4.dir/aa.cpp.s"
-	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/ChoiJunsung/Downloads/sehw4-master/aa.cpp -o CMakeFiles/sehw4.dir/aa.cpp.s
-
-CMakeFiles/sehw4.dir/aa.cpp.o.requires:
-
-.PHONY : CMakeFiles/sehw4.dir/aa.cpp.o.requires
-
-CMakeFiles/sehw4.dir/aa.cpp.o.provides: CMakeFiles/sehw4.dir/aa.cpp.o.requires
-	$(MAKE) -f CMakeFiles/sehw4.dir/build.make CMakeFiles/sehw4.dir/aa.cpp.o.provides.build
-.PHONY : CMakeFiles/sehw4.dir/aa.cpp.o.provides
-
-CMakeFiles/sehw4.dir/aa.cpp.o.provides.build: CMakeFiles/sehw4.dir/aa.cpp.o
-
-
 CMakeFiles/sehw4.dir/view.cpp.o: CMakeFiles/sehw4.dir/flags.make
 CMakeFiles/sehw4.dir/view.cpp.o: ../view.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/ChoiJunsung/Downloads/sehw4-master/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/sehw4.dir/view.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/ChoiJunsung/Downloads/sehw4-master/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/sehw4.dir/view.cpp.o"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sehw4.dir/view.cpp.o -c /Users/ChoiJunsung/Downloads/sehw4-master/view.cpp
 
 CMakeFiles/sehw4.dir/view.cpp.i: cmake_force
@@ -129,21 +105,71 @@ CMakeFiles/sehw4.dir/view.cpp.o.provides: CMakeFiles/sehw4.dir/view.cpp.o.requir
 CMakeFiles/sehw4.dir/view.cpp.o.provides.build: CMakeFiles/sehw4.dir/view.cpp.o
 
 
+CMakeFiles/sehw4.dir/model.cpp.o: CMakeFiles/sehw4.dir/flags.make
+CMakeFiles/sehw4.dir/model.cpp.o: ../model.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/ChoiJunsung/Downloads/sehw4-master/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/sehw4.dir/model.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sehw4.dir/model.cpp.o -c /Users/ChoiJunsung/Downloads/sehw4-master/model.cpp
+
+CMakeFiles/sehw4.dir/model.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sehw4.dir/model.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/ChoiJunsung/Downloads/sehw4-master/model.cpp > CMakeFiles/sehw4.dir/model.cpp.i
+
+CMakeFiles/sehw4.dir/model.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sehw4.dir/model.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/ChoiJunsung/Downloads/sehw4-master/model.cpp -o CMakeFiles/sehw4.dir/model.cpp.s
+
+CMakeFiles/sehw4.dir/model.cpp.o.requires:
+
+.PHONY : CMakeFiles/sehw4.dir/model.cpp.o.requires
+
+CMakeFiles/sehw4.dir/model.cpp.o.provides: CMakeFiles/sehw4.dir/model.cpp.o.requires
+	$(MAKE) -f CMakeFiles/sehw4.dir/build.make CMakeFiles/sehw4.dir/model.cpp.o.provides.build
+.PHONY : CMakeFiles/sehw4.dir/model.cpp.o.provides
+
+CMakeFiles/sehw4.dir/model.cpp.o.provides.build: CMakeFiles/sehw4.dir/model.cpp.o
+
+
+CMakeFiles/sehw4.dir/controller.cpp.o: CMakeFiles/sehw4.dir/flags.make
+CMakeFiles/sehw4.dir/controller.cpp.o: ../controller.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/ChoiJunsung/Downloads/sehw4-master/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/sehw4.dir/controller.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sehw4.dir/controller.cpp.o -c /Users/ChoiJunsung/Downloads/sehw4-master/controller.cpp
+
+CMakeFiles/sehw4.dir/controller.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/sehw4.dir/controller.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/ChoiJunsung/Downloads/sehw4-master/controller.cpp > CMakeFiles/sehw4.dir/controller.cpp.i
+
+CMakeFiles/sehw4.dir/controller.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/sehw4.dir/controller.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/ChoiJunsung/Downloads/sehw4-master/controller.cpp -o CMakeFiles/sehw4.dir/controller.cpp.s
+
+CMakeFiles/sehw4.dir/controller.cpp.o.requires:
+
+.PHONY : CMakeFiles/sehw4.dir/controller.cpp.o.requires
+
+CMakeFiles/sehw4.dir/controller.cpp.o.provides: CMakeFiles/sehw4.dir/controller.cpp.o.requires
+	$(MAKE) -f CMakeFiles/sehw4.dir/build.make CMakeFiles/sehw4.dir/controller.cpp.o.provides.build
+.PHONY : CMakeFiles/sehw4.dir/controller.cpp.o.provides
+
+CMakeFiles/sehw4.dir/controller.cpp.o.provides.build: CMakeFiles/sehw4.dir/controller.cpp.o
+
+
 # Object files for target sehw4
 sehw4_OBJECTS = \
 "CMakeFiles/sehw4.dir/main.cpp.o" \
-"CMakeFiles/sehw4.dir/aa.cpp.o" \
-"CMakeFiles/sehw4.dir/view.cpp.o"
+"CMakeFiles/sehw4.dir/view.cpp.o" \
+"CMakeFiles/sehw4.dir/model.cpp.o" \
+"CMakeFiles/sehw4.dir/controller.cpp.o"
 
 # External object files for target sehw4
 sehw4_EXTERNAL_OBJECTS =
 
 sehw4: CMakeFiles/sehw4.dir/main.cpp.o
-sehw4: CMakeFiles/sehw4.dir/aa.cpp.o
 sehw4: CMakeFiles/sehw4.dir/view.cpp.o
+sehw4: CMakeFiles/sehw4.dir/model.cpp.o
+sehw4: CMakeFiles/sehw4.dir/controller.cpp.o
 sehw4: CMakeFiles/sehw4.dir/build.make
 sehw4: CMakeFiles/sehw4.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/ChoiJunsung/Downloads/sehw4-master/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable sehw4"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/ChoiJunsung/Downloads/sehw4-master/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable sehw4"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sehw4.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -152,8 +178,9 @@ CMakeFiles/sehw4.dir/build: sehw4
 .PHONY : CMakeFiles/sehw4.dir/build
 
 CMakeFiles/sehw4.dir/requires: CMakeFiles/sehw4.dir/main.cpp.o.requires
-CMakeFiles/sehw4.dir/requires: CMakeFiles/sehw4.dir/aa.cpp.o.requires
 CMakeFiles/sehw4.dir/requires: CMakeFiles/sehw4.dir/view.cpp.o.requires
+CMakeFiles/sehw4.dir/requires: CMakeFiles/sehw4.dir/model.cpp.o.requires
+CMakeFiles/sehw4.dir/requires: CMakeFiles/sehw4.dir/controller.cpp.o.requires
 
 .PHONY : CMakeFiles/sehw4.dir/requires
 

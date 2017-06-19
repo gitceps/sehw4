@@ -1,7 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/sehw4.dir/main.cpp.o"
-  "CMakeFiles/sehw4.dir/aa.cpp.o"
   "CMakeFiles/sehw4.dir/view.cpp.o"
+  "CMakeFiles/sehw4.dir/model.cpp.o"
+  "CMakeFiles/sehw4.dir/controller.cpp.o"
   "sehw4.pdb"
   "sehw4"
 )

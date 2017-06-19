@@ -2,6 +2,9 @@
 #include "model.h"
 #include "controller.h"
 #include "view.h"
+#include <ctime>
+#include <chrono>
+typedef std::chrono::high_resolution_clock Clock;
 
 using namespace std;
 
@@ -113,8 +116,8 @@ void innermainveiwUI(int num){
             mainmenuController(num, action);
             break;
         case 3:
-            cout << "3.1 투표제안" << endl;
-            cout << "*입력 선택 : ";
+            AddVoteUI AddVoteUI;
+            AddVoteUI.displayUI();
             cin >> action;
             mainmenuController(num, action);
             break;
@@ -137,6 +140,9 @@ void innermainveiwUI(int num){
             mainmenuController(num, action);
             break;
         case 7:
+
+            break;
+        case 8:
             break;
 
     }
@@ -150,7 +156,8 @@ void mainviewUI(){
     cout << "4. 투표관리" << endl;
     cout << "5. 그룹관리" << endl;
     cout << "6. 현재시간 설정" << endl;
-    cout << "7. 종료" << endl;
+    cout << "7. session변경" << endl;
+    cout << "8. 종료" << endl;
     cout << "*입력 선택 : ";
     cin >> menunum;
     try{
@@ -161,7 +168,13 @@ void mainviewUI(){
     }
 }
 
-
 int main() {
+    /*auto t1 = Clock::now();
+     auto t2 = Clock::now();
+     cout << "Delta t2-t1: "
+               << std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1).count()
+               << " nanoseconds" << std::endl;*/
     mainviewUI();
 }
+
+

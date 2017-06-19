@@ -1,1 +1,1 @@
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -g -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/sehw4.dir/main.cpp.o CMakeFiles/sehw4.dir/aa.cpp.o CMakeFiles/sehw4.dir/view.cpp.o  -o sehw4 
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++   -g -Wl,-search_paths_first -Wl,-headerpad_max_install_names  CMakeFiles/sehw4.dir/main.cpp.o CMakeFiles/sehw4.dir/view.cpp.o CMakeFiles/sehw4.dir/model.cpp.o CMakeFiles/sehw4.dir/controller.cpp.o  -o sehw4 

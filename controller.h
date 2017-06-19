@@ -14,15 +14,17 @@ using namespace std;
 
 class UserController{
 private:
+    User *currentUser;
     UserController *UCInstance;
 public:
+    void setUser();
     UserController getInstance();
-    bool isValidUser(int userID, string password);
-    void validdateUserInfo(int userID, string password);
+    bool isValidUser(string userID, string password);
+    void validateUserInfo(string userName, string password);
     void deleteUserSession(int userID);
     void createUser();
     bool getOverlapCheck(string userName);
-    void setUserData(string userID, string userName, string userRealName,string emali, string address, string idCardNumber);
+    void setUserData(string userID, string userName, string password, string userRealName,string email, string address, string idCardNumber);
     void deleteUser(int userID);
 };
 
@@ -54,7 +56,8 @@ public:
     list<Vote> getOngoingVoteDetails();
     list<Vote> getScheduledVoteDetails();
     void checkVote();
-
+    void showVoteData(); // 시퀀스 다이어 그램에 있으나 클래스 다이어 그램에 빠져있음
+    void addNewVote(); // 시퀀스 다이어 그램에 있으나 클래스 다이어 그램에 빠져있음
 };
 
 class Timer{
@@ -64,7 +67,8 @@ public:
 
 class ApplicationController {
 private:
-    ApplicationController *ACInstance;
+    ApplicationController *acInstance;
+    ApplicationController();
 
 public:
     ApplicationController getInstance();

@@ -4,9 +4,18 @@
 
 #include "controller.h"
 #include "view.h"
-#include <iostream>
 
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <mysql++/mysql++.h>
 using namespace std;
+using namespace mysqlpp;
+
+#define DBNAME "sys"
+#define SERVER "localhost"
+#define USER "root"
+#define PASSWORD ""
 
 //UserController
 UserController UserController::getInstance(){
@@ -14,24 +23,50 @@ UserController UserController::getInstance(){
     return *UCInstance;
 }
 
-bool UserController::isValidUser(int userID, string password){
-    if (userID == 123 && password == "1")
-        return true;
-    else
-        return false;
+bool UserController::isValidUser(string userName, string password){
+    Connection con(true);
+    try {
+        con.connect(DBNAME, SERVER, USER, PASSWORD);
+        //cout << "connected to database" << endl;
+
+        string temp = "select * from user where userName = '";
+        temp += userName;
+        temp += "' and password = '";
+        temp += password;
+        temp += "'";
+        //cout << temp << endl;
+
+        Query query = con.query(temp);
+        mysqlpp::StoreQueryResult res = query.store();
+
+        if (res) {
+            if(res.num_rows() == 0) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+        else {
+            cerr << query.error() << endl;
+            return false;
+        }
+    } catch(Exception &e) {
+        cout << e.what() << endl;
+    }
 }
 
-void UserController::validdateUserInfo(int userID, string password){
+void UserController::validateUserInfo(string userName, string password) {
     bool ivu;
-    ivu = isValidUser(userID,password);
+    ivu = isValidUser(userName,password);
     if(ivu == true){
         User User;
-        User.User();
         User.authenticateUser();
+        UserViewUI UserViewUI;
+        UserViewUI.showLoginResultMessage();
     }
     else
         return;
-
 }
 
 void UserController::deleteUserSession(int userID){
@@ -46,14 +81,73 @@ void UserController::createUser(){
 }
 
 bool UserController::getOverlapCheck(string userName){
-    if (userName == "kyk")
-        return true;
-    else
-        return false;
+    Connection con(true);
+    try {
+        con.connect(DBNAME, SERVER, USER, PASSWORD);
+        //cout << "connected to database" << endl;
+
+        string temp = "select * from user where userName = '";
+        temp += userName;
+        temp += "'";
+        cout << temp << endl;
+
+        Query query = con.query(temp);
+        mysqlpp::StoreQueryResult res = query.store();
+
+        if (res) {
+            if(res.num_rows() != 0) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            cerr << query.error() << endl;
+            return false;
+        }
+    } catch(Exception &e) {
+        cout << e.what() << endl;
+    }
 }
 
-void UserController::setUserData(string userID, string userName, string userRealName,string emali, string address, string idCardNumber){
+void UserController::setUserData(string userID, string userName, string password, string userRealName,string email, string address, string idCardNumber){
+    Connection con(true);
+    try {
+        con.connect(DBNAME, SERVER, USER, PASSWORD);
+        //cout << "connected to database" << endl;
 
+        string temp = "insert into user(userName,password,address,email,idCardNumber,userRealName) values('";
+        temp += userName;
+        temp += "', '";
+        temp += password;
+        temp += "', '";
+        temp += address;
+        temp += "', '";
+        temp += email;
+        temp += "', '";
+        temp += idCardNumber;
+        temp += "', '";
+        temp += userRealName;
+        temp += "')";
+        //cout << temp << endl;
+
+        Query query = con.query(temp);
+        mysqlpp::StoreQueryResult res = query.store();
+
+        if (res) {
+
+        } else {
+            cerr << query.error() << endl;
+        }
+    }  catch (Exception &e) {
+            cout << e.what() << endl;
+    }
+
+}
+
+void UserController::setUser() {
+    currentUser = new User();
 }
 void UserController::deleteUser(int userID){
 
@@ -75,6 +169,7 @@ void GroupController::showAllGroup(){
 void GroupController::joinGroup(int userID, int groupID){
 
 }
+
 void GroupController::createGroup(){
     GroupViewUI GroupViewUI;
     GroupViewUI.groupDataInput();
@@ -98,19 +193,27 @@ VoteController VoteController::getInstance(){
 }
 list<Vote> VoteController::showOngoingVote(){
     list<Vote> Vote;
-    return Vote;}
+    return Vote;
+}
 list<Vote> VoteController::showScheduleVote(){
     list<Vote> Vote;
-    return Vote;}
+    return Vote;
+}
+
 list<Vote> VoteController::showTerminatedVote(){
     list<Vote> Vote;
-    return Vote;}
+    return Vote;
+}
+
 Vote VoteController::getVote(int voteID){
     Vote Vote;
     return Vote;
 }
+
 void VoteController::saveItemData(int voteID, int index){}
+
 void VoteController::deleteVote(int voteID){}
+
 list<Vote> VoteController::getTerminatedVoteDetails(){
     list<Vote> Vote;
     return Vote;
@@ -125,12 +228,23 @@ list<Vote> VoteController::getScheduledVoteDetails(){
 }
 void VoteController::checkVote(){}
 
+void VoteController::showVoteData(){
+    AddVoteUI AddVoteUI;
+    AddVoteUI.createNewVote();
+} // 시퀀스 다이어 그램에 있으나 클래스 다이어 그램에 빠져있음
+void VoteController::addNewVote(){} // 시퀀스 다이어 그램에 있으나 클래스 다이어 그램에 빠져있음
+
 bool Timer::checkEndTime(){ return true;}
 
 //ApplicationController
 ApplicationController ApplicationController::getInstance(){
-    ACInstance = new ApplicationController;
-    return *ACInstance;
+    if(acInstance == null)
+        acInstance = new ApplicationController();
+    else
+        return *acInstance;
 }
-void ApplicationController::terminateProcess(){}
+ApplicationController::ApplicationController() {}
+void ApplicationController::terminateProcess(){
+    exit(0);
+}
 void ApplicationController::deleteVote(){}

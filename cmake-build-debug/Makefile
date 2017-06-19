@@ -123,32 +123,32 @@ sehw4/fast:
 	$(MAKE) -f CMakeFiles/sehw4.dir/build.make CMakeFiles/sehw4.dir/build
 .PHONY : sehw4/fast
 
-aa.o: aa.cpp.o
+controller.o: controller.cpp.o
 
-.PHONY : aa.o
+.PHONY : controller.o
 
 # target to build an object file
-aa.cpp.o:
-	$(MAKE) -f CMakeFiles/sehw4.dir/build.make CMakeFiles/sehw4.dir/aa.cpp.o
-.PHONY : aa.cpp.o
+controller.cpp.o:
+	$(MAKE) -f CMakeFiles/sehw4.dir/build.make CMakeFiles/sehw4.dir/controller.cpp.o
+.PHONY : controller.cpp.o
 
-aa.i: aa.cpp.i
+controller.i: controller.cpp.i
 
-.PHONY : aa.i
+.PHONY : controller.i
 
 # target to preprocess a source file
-aa.cpp.i:
-	$(MAKE) -f CMakeFiles/sehw4.dir/build.make CMakeFiles/sehw4.dir/aa.cpp.i
-.PHONY : aa.cpp.i
+controller.cpp.i:
+	$(MAKE) -f CMakeFiles/sehw4.dir/build.make CMakeFiles/sehw4.dir/controller.cpp.i
+.PHONY : controller.cpp.i
 
-aa.s: aa.cpp.s
+controller.s: controller.cpp.s
 
-.PHONY : aa.s
+.PHONY : controller.s
 
 # target to generate assembly for a file
-aa.cpp.s:
-	$(MAKE) -f CMakeFiles/sehw4.dir/build.make CMakeFiles/sehw4.dir/aa.cpp.s
-.PHONY : aa.cpp.s
+controller.cpp.s:
+	$(MAKE) -f CMakeFiles/sehw4.dir/build.make CMakeFiles/sehw4.dir/controller.cpp.s
+.PHONY : controller.cpp.s
 
 main.o: main.cpp.o
 
@@ -176,6 +176,33 @@ main.s: main.cpp.s
 main.cpp.s:
 	$(MAKE) -f CMakeFiles/sehw4.dir/build.make CMakeFiles/sehw4.dir/main.cpp.s
 .PHONY : main.cpp.s
+
+model.o: model.cpp.o
+
+.PHONY : model.o
+
+# target to build an object file
+model.cpp.o:
+	$(MAKE) -f CMakeFiles/sehw4.dir/build.make CMakeFiles/sehw4.dir/model.cpp.o
+.PHONY : model.cpp.o
+
+model.i: model.cpp.i
+
+.PHONY : model.i
+
+# target to preprocess a source file
+model.cpp.i:
+	$(MAKE) -f CMakeFiles/sehw4.dir/build.make CMakeFiles/sehw4.dir/model.cpp.i
+.PHONY : model.cpp.i
+
+model.s: model.cpp.s
+
+.PHONY : model.s
+
+# target to generate assembly for a file
+model.cpp.s:
+	$(MAKE) -f CMakeFiles/sehw4.dir/build.make CMakeFiles/sehw4.dir/model.cpp.s
+.PHONY : model.cpp.s
 
 view.o: view.cpp.o
 
@@ -213,12 +240,15 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... sehw4"
-	@echo "... aa.o"
-	@echo "... aa.i"
-	@echo "... aa.s"
+	@echo "... controller.o"
+	@echo "... controller.i"
+	@echo "... controller.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... model.o"
+	@echo "... model.i"
+	@echo "... model.s"
 	@echo "... view.o"
 	@echo "... view.i"
 	@echo "... view.s"

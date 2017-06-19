@@ -82,16 +82,16 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/Users/ChoiJunsung/Downloads/sehw4-master/aa.cpp">
-			<Option target="sehw4"/>
-		</Unit>
-		<Unit filename="/Users/ChoiJunsung/Downloads/sehw4-master/aa.h">
+		<Unit filename="/Users/ChoiJunsung/Downloads/sehw4-master/controller.cpp">
 			<Option target="sehw4"/>
 		</Unit>
 		<Unit filename="/Users/ChoiJunsung/Downloads/sehw4-master/controller.h">
 			<Option target="sehw4"/>
 		</Unit>
 		<Unit filename="/Users/ChoiJunsung/Downloads/sehw4-master/main.cpp">
+			<Option target="sehw4"/>
+		</Unit>
+		<Unit filename="/Users/ChoiJunsung/Downloads/sehw4-master/model.cpp">
 			<Option target="sehw4"/>
 		</Unit>
 		<Unit filename="/Users/ChoiJunsung/Downloads/sehw4-master/model.h">

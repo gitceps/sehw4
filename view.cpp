@@ -5,7 +5,7 @@
 #include "view.h"
 #include "model.h"
 #include "controller.h"
-
+#include <iostream>
 
 using namespace std;
 
@@ -37,6 +37,7 @@ void VoteViewUI::displayUI(){
 }
 void VoteViewUI::userInput(){}
 
+
 //GroupViewUI
 //User 객체를 생성하는 것 보단 GroupMember 객체를 생성하는 것이 좋아보임
 //시퀀스 그림 이상 코드의 흐름과 불일치
@@ -64,7 +65,12 @@ void GroupViewUI::showAllGroupList(){
     GroupController GroupController;
     GroupController.showAllGroup();
 }
-void GroupViewUI::joinGroup(){}
+void GroupViewUI::joinGroup(){
+    int userID;
+    int groupID;
+    GroupController GroupController;
+    GroupController.joinGroup(userID, groupID);
+}
 void GroupViewUI::requestCreateGroup(){
     int num;
     cout << "그룹을 생성하시겠습니까?" << endl;
@@ -73,12 +79,17 @@ void GroupViewUI::requestCreateGroup(){
     cout << "*입력 선택 : ";
     cin >> num;
     switch (num){
-        case 1:
+        case 1: {
             GroupController GroupController;
             GroupController.createGroup();
             break;
-        case 2:
+        }
+        case 2: {
             break;
+        }
+        default: {
+            break;
+        }
     }
 
 }
@@ -122,14 +133,14 @@ void VoteDetailUI::displayUI(){}
 void VoteDetailUI::userInput(){}
 
 void UserViewUI::login(){
-    int userID;
+    string userName;
     string psw;
-    cout << "ID를 입력하세요";
-    cin >> userID;
-    cout << "Password를 입력하세요";
+    cout << "ID를 입력하세요" << endl;
+    cin >> userName;
+    cout << "Password를 입력하세요" << endl;
     cin >> psw;
     UserController UserController;
-    UserController.validdateUserInfo(userID,psw);
+    UserController.validateUserInfo(userName,psw);
 
 }
 
@@ -153,12 +164,14 @@ void UserViewUI::requestCreateUser(){
     cout << "*입력 선택 : ";
     cin >> num;
     switch (num){
-        case 1:
+        case 1: {
             UserController UserController;
             UserController.createUser();
             break;
-        case 2:
+        }
+        case 2: {
             break;
+        }
     }
 }
 
@@ -170,26 +183,27 @@ void UserViewUI::userDataInput(){
     string icn;
     string email;
     string address;
-    int overlapChk;
+    bool overlapChk;
     cout << "회원가입에 필요한 정보를 입력하세요" << endl;
-    cout << "ID를 입력하세요";
+    cout << "ID를 입력하세요" << endl;
     cin >> userName;
-    cout << "Password를 입력하세요";
+    cout << "Password를 입력하세요" << endl;
     cin >> psw;
-    cout << "이름을 입력하세요";
+    cout << "이름을 입력하세요" << endl;
     cin >> userRName;
-    cout << "주민번호를 입력하세요";
+    cout << "주민번호를 입력하세요" << endl;
     cin >> icn;
-    cout << "이메일 주소를 입력하세요";
+    cout << "이메일 주소를 입력하세요" << endl;
     cin >> email;
-    cout << "주소를 입력하세요";
+    cout << "주소를 입력하세요" << endl;
     cin >> address;
 
     UserController UserController;
     overlapChk = UserController.getOverlapCheck(userName);
-    if (overlapChk == 0){
+    //overlapchk가 1이면 중복
+    if (!overlapChk){
         cout << "회원가입이 완료되었습니다" << endl;
-        UserController.setUserData(userID, userName,userRName,email,address,icn);
+        UserController.setUserData(userID, userName, psw, userRName,email,address,icn);
     }
     else
         overlapError();
@@ -211,11 +225,16 @@ void UserViewUI::requestDeleteUser(){
     cout << "*입력 선택 : ";
     cin >> num;
     switch (num){
-        case 1:
+        case 1: {
             UserController.deleteUser(userID);
             break;
-        case 2:
+        }
+        case 2: {
             break;
+        }
+        default: {
+            break;
+        }
     }
 }
 
@@ -224,12 +243,41 @@ void UserViewUI::userInput(){}
 
 //AddVoteUI
 void AddVoteUI::createNewVote(){
+    string votetitle;
+    int optionnum;
+    string opt;
+    list<string> option;
+    string stime;
+    string etime;
+    cout << "******투표를 생성해주세요******" << endl;
+    cout << "투표 주제를 선택하세요 : ";
+    cin >> votetitle;
+    cout << "******투표 항목을 생성해 주세요******" << endl;
+    cout << "투표 항목 수를 정해주세요 :";
+    cin >> optionnum;
+    cout << optionnum <<"개 의 투표 항목 이름을 정해주세요"<< endl;
+    for (int i = 0; i<optionnum; i++){
+        cout << "투표 항목 이름을 정해주세요 :";
+        cin >> opt;
+        option.push_back(opt);
+    }
+    cout << "투표 시작시간을 지정해주세요 : ";
+    cin >> stime;
+    cout << "투표 마감시간을 지정해주세요 :";
+    cin >> etime;
     VoteController VoteController;
+    VoteController.addNewVote();
+
 }
 
 //VoteController에 showVoteData 누락
 void AddVoteUI::selectSuggestVote(){
     VoteController VoteController;
+    VoteController.showVoteData();
+
 }
-void AddVoteUI::displayUI(){}
+void AddVoteUI::displayUI(){
+    cout << "3.1 투표제안" << endl;
+    cout << "*입력 선택 : ";
+}
 void AddVoteUI::userInput(){}

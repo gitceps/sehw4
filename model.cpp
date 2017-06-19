@@ -27,9 +27,9 @@ bool Vote::checkVote(){return true;}
 User::User(){}
 
 void User::authenticateUser(){
-    loginStatus == true;
+    //loginStatus == true;
 }
-bool User::checkUserName(char* userName){
+bool User::checkUserName(string userName){
     if (userName == "kyk")
         return true;
     else
