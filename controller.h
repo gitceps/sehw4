@@ -60,7 +60,7 @@ public:
     list<Vote> getScheduledVoteDetails();
     void checkVote();
     void showVoteData(); // 시퀀스 다이어 그램에 있으나 클래스 다이어 그램에 빠져있음
-    void addNewVote(); // 시퀀스 다이어 그램에 있으나 클래스 다이어 그램에 빠져있음
+    void addNewVote(string voteTitle, int optionNum, list<string> option, string stime, string etime); // 시퀀스 다이어 그램에 있으나 클래스 다이어 그램에 빠져있음
 };
 
 class Timer{

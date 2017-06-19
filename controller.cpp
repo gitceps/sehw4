@@ -397,7 +397,82 @@ void VoteController::showVoteData(){
     AddVoteUI AddVoteUI;
     AddVoteUI.createNewVote();
 } // 시퀀스 다이어 그램에 있으나 클래스 다이어 그램에 빠져있음
-void VoteController::addNewVote(){} // 시퀀스 다이어 그램에 있으나 클래스 다이어 그램에 빠져있음
+void VoteController::addNewVote(string voteTitle, int optionNum, list<string> option, string stime, string etime){
+    UserController* userController = UserController::getInstance();
+    User* currentUser = userController->getCurrentUser();
+    string userName = currentUser->getUserName();
+
+    Connection con(true);
+    try {
+        con.connect(DBNAME, SERVER, USER, PASSWORD);
+        //TODO 여러개의 쿼리문 구현
+        string temp = "select distinct groupID from sys.user, sys.group where (user_groupID = groupName) and  userName = '";
+        temp += userName;
+        temp += "'";
+        cout << temp << endl;
+
+        Query query = con.query(temp);
+        mysqlpp::StoreQueryResult res = query.store();
+        if (res) {
+            if(res.num_rows() == 0)
+                return;
+
+        } else {
+            cerr << query.error() << endl;
+        }
+
+        //genderate random vote ID
+        int voteID = (random() % 1000);
+
+        string temp2 = "insert into sys.vote(voteID, groupID, voteCreatorID, startTime, title, optionNum, endTime) values ('";
+
+        temp2 += to_string(voteID);
+        temp2 += "', '";
+        temp2 += res[0]["groupID"].data();;
+        temp2 += "', '";
+        temp2 += userName;
+        temp2 += "', '";
+        temp2 += "1000";
+        temp2 += "', '";
+        temp2 += voteTitle;
+        temp2 += "', '";
+        temp2 += to_string(optionNum);
+        temp2 += "', '";
+        temp2 += "2000";
+        temp2 += "')";
+
+        cout << temp2 << endl;
+
+        Query query2 = con.query(temp2);
+        mysqlpp::StoreQueryResult res2 = query2.store();
+        if (res2) {
+
+        } else {
+            cerr << query2.error() << endl;
+        }
+
+        for(int i = 0; i < optionNum; i++) {
+            //TODO 반복 쿼리문 구현
+            string temp3 = "insert into voteItem(voteID, itemName) values('";
+            temp3 += to_string(voteID);
+            temp3 += "', '";
+            temp3 += option.front();
+            temp3 += "')";
+            cout << temp3 << endl;
+            Query query3 = con.query(temp3);
+            mysqlpp::StoreQueryResult res3 = query3.store();
+            option.pop_front();
+            if (res3) {
+
+            } else {
+                cerr << query3.error() << endl;
+            }
+        }
+    } catch(Exception &e) {
+        cout << e.what() << endl;
+    }
+
+} // 시퀀스 다이어 그램에 있으나 클래스 다이어 그램에 빠져있음
 
 bool Timer::checkEndTime(){ return true;}
 

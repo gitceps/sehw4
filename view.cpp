@@ -267,6 +267,11 @@ void UserViewUI::userInput(){}
 
 //AddVoteUI
 void AddVoteUI::createNewVote(){
+    UserController* userController = UserController::getInstance();
+    if(userController->getCurrentUser() == NULL) {
+        cout << "로그인을 먼저 해주세요" << endl;
+        return;
+    }
     string votetitle;
     int optionnum;
     string opt;
@@ -290,7 +295,7 @@ void AddVoteUI::createNewVote(){
     cout << "투표 마감시간을 지정해주세요 :";
     cin >> etime;
     VoteController* voteController = VoteController::getInstance();
-    voteController->addNewVote();
+    voteController->addNewVote(votetitle, optionnum, option, stime, etime);
 
 }
 
