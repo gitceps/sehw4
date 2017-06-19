@@ -17,8 +17,8 @@ private:
     User *currentUser;
     UserController *UCInstance;
 public:
-    void setUser();
     UserController getInstance();
+    User getCurrentUser();
     bool isValidUser(string userID, string password);
     void validateUserInfo(string userName, string password);
     void deleteUserSession(int userID);
@@ -67,14 +67,12 @@ public:
 
 class ApplicationController {
 private:
-    ApplicationController *acInstance;
+    static ApplicationController *acInstance;
     ApplicationController();
 
 public:
-    ApplicationController getInstance();
-
+    static ApplicationController* getInstance();
     void terminateProcess();
-
     void deleteVote();
 };
 

@@ -43,11 +43,13 @@ private:
 
 public:
     User();
+    User(string userName);
     void authenticateUser();
     bool checkUserName(string userName);
     bool changeUserStatus();
     bool checkUserPermission();
     void userJoinGroup(int groupID);
+    string getUserName();
     int getUserID();
 };
 

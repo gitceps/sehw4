@@ -25,9 +25,12 @@ bool Vote::checkVote(){return true;}
 
 //User
 User::User(){}
+User::User(string userName) {
+    this->userName = userName;
+}
 
 void User::authenticateUser(){
-    //loginStatus == true;
+    this->loginStatus = true;
 }
 bool User::checkUserName(string userName){
     if (userName == "kyk")
@@ -52,6 +55,7 @@ bool User::checkUserPermission(){
 }
 void User::userJoinGroup(int groupID){}
 int User::getUserID(){ return userID;}
+string User::getUserName() {return userName;}
 
 //GroupMember
 void GroupMember::removeGroupFromUser(){

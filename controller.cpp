@@ -60,8 +60,9 @@ void UserController::validateUserInfo(string userName, string password) {
     bool ivu;
     ivu = isValidUser(userName,password);
     if(ivu == true){
-        User User;
-        User.authenticateUser();
+        currentUser = new User(userName);
+        currentUser->authenticateUser();
+
         UserViewUI UserViewUI;
         UserViewUI.showLoginResultMessage();
     }
@@ -69,9 +70,14 @@ void UserController::validateUserInfo(string userName, string password) {
         return;
 }
 
+User UserController::getCurrentUser() {
+    return *currentUser;
+}
+
 void UserController::deleteUserSession(int userID){
     User User;
     User.changeUserStatus();
+    ApplicationController::getInstance()->terminateProcess();
 }
 
 void UserController::createUser(){
@@ -146,10 +152,8 @@ void UserController::setUserData(string userID, string userName, string password
 
 }
 
-void UserController::setUser() {
-    currentUser = new User();
-}
 void UserController::deleteUser(int userID){
+
 
 }
 
@@ -188,8 +192,10 @@ void GroupController::setGroupData(int creatorID, int groupID, string groupName)
 
 //VoteController
 VoteController VoteController::getInstance(){
-    VCInstance = new VoteController;
-    return *VCInstance;
+    if(VCInstance == NULL) {
+        VCInstance = new VoteController;
+    } else
+        return *VCInstance;
 }
 list<Vote> VoteController::showOngoingVote(){
     list<Vote> Vote;
@@ -237,14 +243,20 @@ void VoteController::addNewVote(){} // 시퀀스 다이어 그램에 있으나 �
 bool Timer::checkEndTime(){ return true;}
 
 //ApplicationController
-ApplicationController ApplicationController::getInstance(){
-    if(acInstance == null)
+ApplicationController* ApplicationController::acInstance = NULL;
+ApplicationController* ApplicationController::getInstance(){
+    if(acInstance == NULL)
         acInstance = new ApplicationController();
     else
-        return *acInstance;
+        return acInstance;
 }
-ApplicationController::ApplicationController() {}
+ApplicationController::ApplicationController() {
+}
+
 void ApplicationController::terminateProcess(){
+    cout << "프로그램을 종료합니다." << endl;
     exit(0);
 }
-void ApplicationController::deleteVote(){}
+void ApplicationController::deleteVote(){
+
+}
