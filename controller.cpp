@@ -16,15 +16,12 @@ using namespace mysqlpp;
 #define PASSWORD ""
 
 //UserController
-UserController* UserController::UCInstance = NULL;
-UserController::UserController() {
-    currentUser = NULL;
-}
+UserController* UserController::ucInstance = NULL;
 UserController* UserController::getInstance(){
-    if(UCInstance == NULL) {
-        UCInstance = new UserController();
+    if(ucInstance == NULL) {
+        ucInstance = new UserController();
     } else
-        return UCInstance;
+        return ucInstance;
 }
 
 bool UserController::isValidUser(string userName, string password){
@@ -64,14 +61,17 @@ void UserController::validateUserInfo(string userName, string password) {
     bool ivu;
     ivu = isValidUser(userName,password);
     if(ivu == true){
-        currentUser = new User(userName);
-        currentUser->authenticateUser();
+        ucInstance->currentUser = new User(userName);
+        ucInstance->currentUser->authenticateUser();
 
         UserViewUI UserViewUI;
         UserViewUI.showLoginResultMessage();
     }
-    else
+    else {
+        cout << "로그인 정보가 올바르지 않습니다" << endl;
         return;
+    }
+
 }
 
 User* UserController::getCurrentUser() {
@@ -99,7 +99,7 @@ bool UserController::getOverlapCheck(string userName){
         string temp = "select * from user where userName = '";
         temp += userName;
         temp += "'";
-        cout << temp << endl;
+        //cout << temp << endl;
 
         Query query = con.query(temp);
         mysqlpp::StoreQueryResult res = query.store();
@@ -165,7 +165,7 @@ void UserController::deleteUser(string userName){
         string temp = "delete from user where userName = '";
         temp += userName;
         temp += "'";
-        cout << temp << endl;
+        //cout << temp << endl;
 
         Query query = con.query(temp);
         mysqlpp::StoreQueryResult res = query.store();

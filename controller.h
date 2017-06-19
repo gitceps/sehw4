@@ -14,9 +14,9 @@ using namespace std;
 
 class UserController{
 private:
-    User *currentUser;
-    static UserController *UCInstance;
-    UserController();
+    User *currentUser = NULL;
+    static UserController *ucInstance;
+    UserController(){};
 public:
     static UserController* getInstance();
     User* getCurrentUser();

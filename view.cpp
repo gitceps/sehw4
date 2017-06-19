@@ -217,10 +217,12 @@ void UserViewUI::overlapError(){
 void UserViewUI::requestDeleteUser(){
     int num;
     UserController *uc = UserController::getInstance();
+
     if (uc->getCurrentUser() == NULL) {
         cout << "로그인을 먼저 해주세요" << endl;
         return;
     }
+
     string userName = uc->getCurrentUser()->getUserName();
 
     cout << "current UserName : " << userName << endl;

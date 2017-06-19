@@ -177,6 +177,10 @@ int main() {
      cout << "Delta t2-t1: "
                << std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1).count()
                << " nanoseconds" << std::endl;*/
+
+    UserController::getInstance();
+    ApplicationController::getInstance();
+
     while(true) {
         mainviewUI();
     }
