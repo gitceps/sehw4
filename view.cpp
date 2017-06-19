@@ -11,21 +11,21 @@ using namespace std;
 
 //VoteViewUI
 void VoteViewUI::selectOngoingVote(){
-    VoteController VoteController;
-    VoteController.showOngoingVote();
+    VoteController* voteController = VoteController::getInstance();
+    voteController->showOngoingVote();
 }
 void VoteViewUI::selectScheduleVote(){
-    VoteController VoteController;
-    VoteController.showScheduleVote();
+    VoteController* voteController = VoteController::getInstance();
+    voteController->showScheduleVote();
 }
 void VoteViewUI::selectTerminatedVote(){
-    VoteController VoteController;
-    VoteController.showTerminatedVote();
+    VoteController* voteController = VoteController::getInstance();
+    voteController->showTerminatedVote();
 }
 
 void VoteViewUI::selectVote(){
-    VoteController VoteController;
-    VoteController.getOngoingVoteDetails();
+    VoteController* voteController = VoteController::getInstance();
+    voteController->getOngoingVoteDetails();
 }
 
 void VoteViewUI::displayUI(){
@@ -62,14 +62,14 @@ void GroupViewUI::viewMyGroup(){
 }
 
 void GroupViewUI::showAllGroupList(){
-    GroupController GroupController;
-    GroupController.showAllGroup();
+    GroupController* groupController = GroupController::getInstance();
+    groupController->showAllGroup();
 }
 void GroupViewUI::joinGroup(){
-    int userID;
+    string userName;
     int groupID;
-    GroupController GroupController;
-    GroupController.joinGroup(userID, groupID);
+    GroupController* groupController = GroupController::getInstance();
+    groupController->joinGroup(userName, groupID);
 }
 void GroupViewUI::requestCreateGroup(){
     int num;
@@ -80,8 +80,8 @@ void GroupViewUI::requestCreateGroup(){
     cin >> num;
     switch (num){
         case 1: {
-            GroupController GroupController;
-            GroupController.createGroup();
+            GroupController* groupController = GroupController::getInstance();
+            groupController->createGroup();
             break;
         }
         case 2: {
@@ -95,18 +95,19 @@ void GroupViewUI::requestCreateGroup(){
 }
 void GroupViewUI::groupDataInput(){
     string groupName;
-    int createID;
-    int groupID;
+    int groupID = 0;
+    UserController* userController = UserController::getInstance();
+    string creatorName = userController->getCurrentUser()->getUserName();
     int overlapChk;
     cout << "그룹 생성에 필요한 정보를 입력하세요" << endl;
-    cout << "그룹이름을 입력하세요";
+    cout << "그룹이름을 입력하세요" << endl;
     cin >> groupName;
 
-    GroupController GroupController;
-    overlapChk = GroupController.getOverlapCheck(groupName);
+    GroupController* groupController = GroupController::getInstance();
+    overlapChk = groupController->getOverlapCheck(groupName);
     if (overlapChk == 0){
-        cout << "회원가입이 완료되었습니다" << endl;
-        GroupController.setGroupData(createID,groupID,groupName);
+        groupController->setGroupData(creatorName,groupID,groupName);
+        cout << "그룹 생성이 완료되었습니다" << endl;
     }
     else
         overlapError();
@@ -275,15 +276,15 @@ void AddVoteUI::createNewVote(){
     cin >> stime;
     cout << "투표 마감시간을 지정해주세요 :";
     cin >> etime;
-    VoteController VoteController;
-    VoteController.addNewVote();
+    VoteController* voteController = VoteController::getInstance();
+    voteController->addNewVote();
 
 }
 
 //VoteController에 showVoteData 누락
 void AddVoteUI::selectSuggestVote(){
-    VoteController VoteController;
-    VoteController.showVoteData();
+    VoteController* voteController = VoteController::getInstance();
+    voteController->showVoteData();
 
 }
 void AddVoteUI::displayUI(){

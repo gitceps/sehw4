@@ -10,6 +10,8 @@ using namespace std;
 
 void mainviewUI();
 
+void initControllers();
+
 void mainmenuController(int num, int action){
     switch(action){
         case 0:
@@ -93,7 +95,12 @@ void mainmenuController(int num, int action){
                     break;
             }
             break;
+        case 7:
+            break;
         case 8:
+            ApplicationController::getInstance()->terminateProcess();
+            break;
+        default:
             ApplicationController::getInstance()->terminateProcess();
             break;
     }
@@ -143,7 +150,11 @@ void innermainveiwUI(int num){
             mainmenuController(num, action);
             break;
         case 7:
-
+            cout << "7.1 Session 선택/변경" << endl;
+            cout << "7.2 guest Session으로 변경" << endl;
+            cout << "*입력 선택 : ";
+            cin >> action;
+            mainmenuController(num, action);
             break;
         case 8:
             mainmenuController(num, -1);
@@ -171,6 +182,14 @@ void mainviewUI(){
     }
 }
 
+void initControllers() {
+    UserController::getInstance();
+    VoteController::getInstance();
+    GroupController::getInstance();
+    //Timer::getInstance();
+    ApplicationController::getInstance();
+}
+
 int main() {
     /*auto t1 = Clock::now();
      auto t2 = Clock::now();
@@ -178,12 +197,13 @@ int main() {
                << std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1).count()
                << " nanoseconds" << std::endl;*/
 
-    UserController::getInstance();
-    ApplicationController::getInstance();
+    initControllers();
 
     while(true) {
         mainviewUI();
     }
 }
+
+
 
 

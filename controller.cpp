@@ -184,19 +184,50 @@ void UserController::deleteUser(string userName){
 
 
 //GroupController
-GroupController GroupController::getInstance(){
-    GCInstance = new GroupController;
-    return *GCInstance;
+GroupController* GroupController::gcInstance = NULL;
+GroupController* GroupController::getInstance(){
+    if(gcInstance == NULL)
+        gcInstance = new GroupController();
+    else
+        return gcInstance;
 }
 
 //getGroupInfo 시퀀스와 일치하지 않음
 void GroupController::showAllGroup(){
+    Connection con(true);
+    try {
+        con.connect(DBNAME, SERVER, USER, PASSWORD);
+        //cout << "connected to database" << endl;
 
+        Query query = con.query("select * from sys.group");
+        mysqlpp::StoreQueryResult res = query.store();
+
+        if (res) {
+            // Display header
+            cout.setf(ios::left);
+            cout << "  groupID" << setw(19) << " " << "groupName" << setw(19) << " " << "groupCreatorID" << endl << endl;
+
+            // Get each row in result set, and print its contents
+            for (size_t i = 0; i < res.num_rows(); ++i) {
+                cout << "  " << res[i]["groupID"] <<  setw(20) << "   " << res[i]["groupName"] << setw(20) << "   " << res[i]["groupCreatorID"]<< endl;
+            }
+            cout << "==========================" << endl;
+        }
+        else {
+            cerr << query.error() << endl;
+        }
+    } catch(Exception &e) {
+        cout << e.what() << endl;
+    }
 }
 
 //userjoingroup 함수 없음
-void GroupController::joinGroup(int userID, int groupID){
-
+void GroupController::joinGroup(string userName, int groupID){
+    User* currentUser = UserController::getInstance()->getCurrentUser();
+    if (currentUser == NULL) {
+        cout << "로그인을 먼저 해주세요" << endl;
+        return;
+    }
 }
 
 void GroupController::createGroup(){
@@ -206,21 +237,78 @@ void GroupController::createGroup(){
 }
 
 bool GroupController::getOverlapCheck(string groupName){
-    if (groupName == "kyk")
-        return true;
-    else
-        return false;
+    Connection con(true);
+    try {
+        con.connect(DBNAME, SERVER, USER, PASSWORD);
+        //cout << "connected to database" << endl;
+
+        string temp = "select * from sys.group where groupName = '";
+        temp += groupName;
+        temp += "'";
+        //cout << temp << endl;
+
+        Query query = con.query(temp);
+        mysqlpp::StoreQueryResult res = query.store();
+
+        if (res) {
+            if(res.num_rows() != 0) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        else {
+            cerr << query.error() << endl;
+            return false;
+        }
+    } catch(Exception &e) {
+        cout << e.what() << endl;
+    }
 }
 
-void GroupController::setGroupData(int creatorID, int groupID, string groupName){}
+void GroupController::setGroupData(string creatorName, int groupID, string groupName){
+    Connection con(true);
+    try {
+        con.connect(DBNAME, SERVER, USER, PASSWORD);
+        //cout << "connected to database" << endl;
+
+        string temp = "insert into sys.group(groupName, groupCreatorID) values('";
+        temp += groupName;
+        temp += "', '";
+        temp += creatorName;
+        temp += "')";
+        //cout << temp << endl;
+
+        Query query = con.query(temp);
+        mysqlpp::StoreQueryResult res = query.store();
+        cout << "second query" << endl;
+        string temp2 = "update sys.user set user_groupID = '";
+        temp2 += groupName;
+        temp2 += "' where userName = '";
+        temp2 += creatorName;
+        temp2 += "'";
+        Query query2 = con.query(temp2);
+        mysqlpp::StoreQueryResult res2 = query2.store();
+
+        if (res) {
+
+        } else {
+            cerr << query.error() << endl;
+        }
+    }  catch (Exception &e) {
+        cout << e.what() << endl;
+    }
+}
 
 
 //VoteController
-VoteController VoteController::getInstance(){
-    if(VCInstance == NULL) {
-        VCInstance = new VoteController;
+VoteController* VoteController::vcInstance = NULL;
+VoteController* VoteController::getInstance(){
+    if(vcInstance == NULL) {
+        vcInstance = new VoteController();
     } else
-        return *VCInstance;
+        return vcInstance;
 }
 list<Vote> VoteController::showOngoingVote(){
     list<Vote> Vote;

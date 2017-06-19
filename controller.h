@@ -31,22 +31,24 @@ public:
 
 class GroupController{
 private:
-    GroupController *GCInstance;
+    static GroupController *gcInstance;
+    GroupController(){};
 public:
-    GroupController getInstance();
+    static GroupController* getInstance();
     void showAllGroup();
-    void joinGroup(int userID, int groupID);
+    void joinGroup(string userName, int groupID);
     void createGroup();
     bool getOverlapCheck(string groupName);
-    void setGroupData(int creatorID, int groupID, string groupName);
+    void setGroupData(string creatorName, int groupID, string groupName);
 };
 
 class VoteController{
 private:
-    VoteController *VCInstance;
+    static VoteController *vcInstance;
     Vote voteList;
+    VoteController(){};
 public:
-    VoteController getInstance();
+    static VoteController* getInstance();
     list<Vote> showOngoingVote();
     list<Vote> showScheduleVote();
     list<Vote> showTerminatedVote();
