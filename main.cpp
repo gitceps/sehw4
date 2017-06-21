@@ -103,7 +103,21 @@ void mainmenuController(int num, int action){
             }
             break;
         case 7:
-            ApplicationController::getInstance()->deleteVote();
+            switch(action) {
+                case 1:
+                    //UserViewUI *userViewUI = new UserViewUI();
+                    UserViewUI.login();
+                    break;
+                case 2:
+                    if(UserController::getInstance()->getCurrentUser() == NULL) {
+                        cout << "로그인을 먼저 해주세요" << endl;
+                        break;
+                    } else {
+                        UserViewUI.logout();
+                        cout << "Guest Session으로 변경되었습니다" << endl;
+                    }
+                    break;
+            }
             break;
         case 8:
             ApplicationController::getInstance()->terminateProcess();

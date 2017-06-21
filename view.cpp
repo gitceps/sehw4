@@ -76,6 +76,7 @@ void GroupViewUI::joinGroup(){
         cout << "로그인을 먼저 해주세요" << endl;
         return;
     }
+    GroupController::getInstance()->showAllGroup();
     string userName = userController->getCurrentUser()->getUserName();
     int groupID = 0;
     cout << "가입할 그룹 ID를 입력해주세요" << endl;
@@ -147,11 +148,13 @@ void GroupViewUI::userInput(){}
 
 void VoteDetailUI::selectItem(){
     int voteID, index;
+
+    VoteController* voteController = VoteController::getInstance();
+    voteController->showOngoingVote();
     cout << "투표할 안건을 선택하세요" << endl;
     cin >> voteID;
     cout << "투표할 선택지 번호를 입력하세요" << endl;
     cin >> index;
-    VoteController* voteController = VoteController::getInstance();
     voteController->saveItemData(voteID, index);
 }
 void VoteDetailUI::selectDelete(){}
@@ -176,7 +179,6 @@ void UserViewUI::logout(){
     userID = User.getUserID();
     UserController *userController = UserController::getInstance();
     userController->deleteUserSession(userID);
-
 }
 void UserViewUI::showLoginResultMessage(){
     cout << "로그인되었습니다" << endl;

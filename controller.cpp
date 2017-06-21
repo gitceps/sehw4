@@ -82,7 +82,6 @@ User* UserController::getCurrentUser() {
 void UserController::deleteUserSession(int userID){
     User User;
     User.changeUserStatus();
-    ApplicationController::getInstance()->terminateProcess();
 }
 
 void UserController::createUser(){
@@ -207,7 +206,7 @@ void GroupController::showAllGroup(){
             // Display header
             cout.setf(ios::left);
             cout << "  groupID" << setw(19) << " " << "groupName" << setw(19) << " " << "groupCreatorID" << endl << endl;
-
+            cout << "============================" << endl;
             // Get each row in result set, and print its contents
             for (size_t i = 0; i < res.num_rows(); ++i) {
                 cout << "  " << res[i]["groupID"] <<  setw(20) << "   " << res[i]["groupName"] << setw(20) << "   " << res[i]["groupCreatorID"]<< endl;
@@ -643,7 +642,7 @@ void VoteController::getOngoingVoteDetails(int voteID) {
 
             if (res2) {
                 for (size_t i = 0; i < res2.num_rows(); ++i) {
-                    cout << i+1 << "번 : " << res2[i]["itemName"] << endl;
+                    cout << i+1 << "번 : " << res2[i]["itemName"] << ", 선택지 번호 : " << res2[i]["voteItemID"] << endl;
                 }
                 cout << "----------------------------" << endl;
             } else {

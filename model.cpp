@@ -39,10 +39,6 @@ bool User::checkUserName(string userName){
         return false;
 }
 bool User::changeUserStatus(){
-    if( userID == 123 )
-        return true;
-    else
-        return false;
 }
 bool User::checkUserPermission(){
     int groupID;
