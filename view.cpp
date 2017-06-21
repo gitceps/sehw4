@@ -248,17 +248,22 @@ void UserViewUI::userDataInput(){
     cin >> userName;
 
     psw = getpass("Password를 입력하세요\n");
-    //cout << "Password를 입력하세요" << endl;
-    //    cin >> psw;
+
     cout << "이름을 입력하세요" << endl;
     cin >> userRName;
+
     cout << "주민번호를 입력하세요" << endl;
     cin >> icn;
+    if(icn.length() != 13) {
+        cout << "주민번호는 13자리이어야 합니다" << endl;
+        return;
+    }
+
     cout << "이메일 주소를 입력하세요" << endl;
     cin >> email;
-
     if(!check_email(email)) {
         cout << "올바른 이메일 형식이 아닙니다" << endl;
+        return;
     }
 
     cout << "주소를 입력하세요" << endl;
@@ -273,8 +278,8 @@ void UserViewUI::userDataInput(){
     }
     else
         overlapError();
-
 }
+
 void UserViewUI::overlapError(){
     cout << "중복된 아이디 입니다." << endl;
     return;
