@@ -27,6 +27,8 @@ public:
     bool getOverlapCheck(string userName);
     void setUserData(string userID, string userName, string password, string userRealName,string email, string address, string idCardNumber);
     void deleteUser(string userName);
+    void changeSession();
+    void changetoGuestSession();
 };
 
 class GroupController{

@@ -71,7 +71,6 @@ void UserController::validateUserInfo(string userName, string password) {
         cout << "로그인 정보가 올바르지 않습니다" << endl;
         return;
     }
-
 }
 
 User* UserController::getCurrentUser() {
@@ -182,6 +181,16 @@ void UserController::deleteUser(string userName){
 
 }
 
+void UserController::changeSession() {
+        UserViewUI *userViewUI = new UserViewUI();
+        userViewUI->login();
+}
+
+void UserController::changetoGuestSession() {
+    if(currentUser != NULL) {
+        delete currentUser;
+    }
+}
 
 //GroupController
 GroupController* GroupController::gcInstance = NULL;

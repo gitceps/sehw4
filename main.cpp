@@ -96,6 +96,14 @@ void mainmenuController(int num, int action){
             }
             break;
         case 7:
+            switch (action) {
+                case 1:
+                UserController::getInstance()->changeSession();
+                    break;
+                case 2:
+                UserController::getInstance()->changetoGuestSession();
+                    break;
+            }
             break;
         case 8:
             ApplicationController::getInstance()->terminateProcess();
