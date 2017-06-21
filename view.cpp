@@ -5,6 +5,7 @@
 #include "view.h"
 #include "model.h"
 #include "controller.h"
+#include <unistd.h>
 #include <iostream>
 
 using namespace std;
@@ -192,8 +193,11 @@ void UserViewUI::login(){
     string psw;
     cout << "ID를 입력하세요" << endl;
     cin >> userName;
-    cout << "Password를 입력하세요" << endl;
-    cin >> psw;
+    //cout << "Password를 입력하세요" << endl;
+    psw = getpass("Password를 입력하세요\n");
+    //string psw(getpass("Password를 입력하세요"));
+    //cout << psw << endl;
+    //cin >> psw;
     UserController *userController = UserController::getInstance();
     userController->validateUserInfo(userName,psw);
 
@@ -205,6 +209,7 @@ void UserViewUI::logout(){
     userID = User.getUserID();
     UserController *userController = UserController::getInstance();
     userController->deleteUserSession(userID);
+    cout << "정상적으로 로그아웃 되었습니다" << endl;
 }
 void UserViewUI::showLoginResultMessage(){
     cout << "로그인되었습니다" << endl;
@@ -241,8 +246,10 @@ void UserViewUI::userDataInput(){
     cout << "회원가입에 필요한 정보를 입력하세요" << endl;
     cout << "ID를 입력하세요" << endl;
     cin >> userName;
-    cout << "Password를 입력하세요" << endl;
-    cin >> psw;
+
+    psw = getpass("Password를 입력하세요\n");
+    //cout << "Password를 입력하세요" << endl;
+    //    cin >> psw;
     cout << "이름을 입력하세요" << endl;
     cin >> userRName;
     cout << "주민번호를 입력하세요" << endl;

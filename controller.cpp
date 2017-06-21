@@ -38,7 +38,7 @@ bool UserController::isValidUser(string userName, string password){
         con.connect(DBNAME, SERVER, USER, PASSWORD);
         //cout << "connected to database" << endl;
 
-        string temp = "SELECT distinct * FROM sys.user, sys.group where sys.user.user_groupID = sys.group.groupName and userName = '";
+        string temp = "SELECT distinct * FROM sys.user where userName = '";
         temp += userName;
         temp += "' and password = '";
         temp += password;
@@ -53,15 +53,30 @@ bool UserController::isValidUser(string userName, string password){
                 return false;
             }
             else {
+
                 ucInstance->currentUser = new User(userName);
                 ucInstance->currentUser->authenticateUser();
 
-                GroupController *groupController = GroupController::getInstance();
-                groupController->setCurrentUserGroup(res[0]["groupID"]);
-                return true;
+                string temp2 = "select groupID from sys.group where groupName = '";
+                temp2 += res[0]["user_groupID"].data();
+                temp2 += "'";
+
+                Query query2 = con.query(temp2);
+                mysqlpp::StoreQueryResult res2 = query2.store();
+
+                if (res2) {
+                    if (res2.num_rows() == 0) {
+                    } else {
+                        GroupController *groupController = GroupController::getInstance();
+                        groupController->setCurrentUserGroup(res2[0]["groupID"]);
+                    }
+                    return true;
+                } else {
+                    cerr << query2.error() << endl;
+                    return false;
+                }
             }
-        }
-        else {
+        } else {
             cerr << query.error() << endl;
             return false;
         }
