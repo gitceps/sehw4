@@ -61,6 +61,11 @@ void GroupViewUI::leaveGroup(){
     }
     userController->removeUserFromGroup();
     GroupController* groupController = GroupController::getInstance();
+    if((groupController->getCurrentUserGroup() == NULL) || (groupController->getCurrentUserGroup()->getGroupId() == -1)) {
+        cout << "가입된 그룹이 없습니다" << endl;
+        return;
+    }
+
     groupController->setCurrentUserGroup(-1);
     cout << "그룹 탈퇴가 완료되었습니다" << endl;
 //    int cUP;
@@ -94,21 +99,32 @@ void GroupViewUI::viewMyGroup(){
 }
 
 void GroupViewUI::showAllGroupList(){
+    UserController *userController = UserController::getInstance();
+    if(userController->getCurrentUser() == NULL) {
+        cout << "로그인을 먼저 해주세요" << endl;
+        return;
+    }
     GroupController* groupController = GroupController::getInstance();
     groupController->showAllGroup();
 }
+
 void GroupViewUI::joinGroup(){
     UserController* userController = UserController::getInstance();
     if(userController->getCurrentUser() == NULL) {
         cout << "로그인을 먼저 해주세요" << endl;
         return;
     }
-    GroupController::getInstance()->showAllGroup();
+    GroupController* groupController = GroupController::getInstance();
+    if(groupController->getCurrentUserGroup() != NULL) {
+        cout << "이미 다른 그룹에 가입되어 있습니다" << endl;
+        return;
+    }
+
+    groupController->showAllGroup();
     string userName = userController->getCurrentUser()->getUserName();
     int groupID = 0;
     cout << "가입할 그룹 ID를 입력해주세요" << endl;
     cin >> groupID;
-    GroupController* groupController = GroupController::getInstance();
     groupController->joinGroup(userName, groupID);
 }
 void GroupViewUI::requestCreateGroup(){
@@ -208,8 +224,13 @@ void UserViewUI::logout(){
     User User;
     userID = User.getUserID();
     UserController *userController = UserController::getInstance();
+    if(userController->getCurrentUser() == NULL) {
+        cout << "로그인을 먼저 해주세요" << endl;
+        return;
+    }
     userController->deleteUserSession(userID);
     cout << "정상적으로 로그아웃 되었습니다" << endl;
+    ApplicationController::getInstance()->terminateProcess();
 }
 void UserViewUI::showLoginResultMessage(){
     cout << "로그인되었습니다" << endl;

@@ -296,7 +296,6 @@ void GroupController::joinGroup(string userName, int groupID){
         string temp = "select groupName from sys.group where groupID = '";
         temp += to_string(groupID);
         temp += "'";
-        cout << temp << endl;
 
         Query query = con.query(temp);
         mysqlpp::StoreQueryResult res = query.store();
@@ -321,7 +320,6 @@ void GroupController::joinGroup(string userName, int groupID){
         temp2  += "' where userName = '";
         temp2 += userName;
         temp2 += "'";
-        cout << temp2 << endl;
 
         Query query2 = con.query(temp2);
         mysqlpp::StoreQueryResult res2 = query2.store();
@@ -459,9 +457,8 @@ void VoteController::showOngoingVote(){
         if (res2) {
 
             cout << endl;
-            cout << "향후 진행 예정 투표 조회 " << endl;
+            cout << "현재 진행 중 투표 조회 " << endl;
             cout << "----------------------------" << endl;
-
 
             // Get each row in result set, and print its contents
             for (size_t i = 0; i < res2.num_rows(); ++i) {
@@ -613,7 +610,7 @@ void VoteController::saveItemData(int voteID, int index){
         temp += "' and voteItemID = '";
         temp += to_string(index);
         temp += "'";
-        cout << temp << endl;
+//        cout << temp << endl;
 
         Query query = con.query(temp);
         mysqlpp::StoreQueryResult res = query.store();
@@ -638,7 +635,7 @@ void VoteController::deleteVote(int voteID){
         string temp = "delete from sys.vote where voteID = '";
         temp += to_string(voteID);
         temp += "'";
-        cout << temp << endl;
+//        cout << temp << endl;
 
         Query query = con.query(temp);
         mysqlpp::StoreQueryResult res = query.store();
