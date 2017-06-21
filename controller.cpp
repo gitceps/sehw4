@@ -26,6 +26,12 @@ UserController* UserController::getInstance(){
         return ucInstance;
 }
 
+bool is_email(string const& address) {
+    size_t at_index = address.find_first_of('@', 0);
+    return at_index != std::string::npos
+           && address.find_first_of('.', at_index) != std::string::npos;
+}
+
 bool UserController::isValidUser(string userName, string password){
     Connection con(true);
     try {

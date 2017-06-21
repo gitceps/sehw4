@@ -9,6 +9,12 @@
 
 using namespace std;
 
+bool check_email(string const& address) {
+    size_t at_index = address.find_first_of('@', 0);
+    return at_index != string::npos
+           && address.find_first_of('.', at_index) != std::string::npos;
+}
+
 //VoteViewUI
 void VoteViewUI::selectOngoingVote(){
     VoteController* voteController = VoteController::getInstance();
@@ -243,6 +249,11 @@ void UserViewUI::userDataInput(){
     cin >> icn;
     cout << "이메일 주소를 입력하세요" << endl;
     cin >> email;
+
+    if(!check_email(email)) {
+        cout << "올바른 이메일 형식이 아닙니다" << endl;
+    }
+
     cout << "주소를 입력하세요" << endl;
     cin >> address;
 
