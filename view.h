@@ -59,4 +59,11 @@ public:
     void userInput();
 };
 
+class TimerViewUI{
+public:
+    void selectCheckTime();
+    void selectSetTime();
+    void selectLocalTime();
+};
+
 #endif //SEHW4_VIEW_H

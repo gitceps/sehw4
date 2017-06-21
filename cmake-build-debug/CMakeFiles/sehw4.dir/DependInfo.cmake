@@ -4,10 +4,10 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/Users/ChoiJunsung/Downloads/sehw4-master/controller.cpp" "/Users/ChoiJunsung/Downloads/sehw4-master/cmake-build-debug/CMakeFiles/sehw4.dir/controller.cpp.o"
-  "/Users/ChoiJunsung/Downloads/sehw4-master/main.cpp" "/Users/ChoiJunsung/Downloads/sehw4-master/cmake-build-debug/CMakeFiles/sehw4.dir/main.cpp.o"
-  "/Users/ChoiJunsung/Downloads/sehw4-master/model.cpp" "/Users/ChoiJunsung/Downloads/sehw4-master/cmake-build-debug/CMakeFiles/sehw4.dir/model.cpp.o"
-  "/Users/ChoiJunsung/Downloads/sehw4-master/view.cpp" "/Users/ChoiJunsung/Downloads/sehw4-master/cmake-build-debug/CMakeFiles/sehw4.dir/view.cpp.o"
+  "/Users/J/Desktop/sehw4-master/controller.cpp" "/Users/J/Desktop/sehw4-master/cmake-build-debug/CMakeFiles/sehw4.dir/controller.cpp.o"
+  "/Users/J/Desktop/sehw4-master/main.cpp" "/Users/J/Desktop/sehw4-master/cmake-build-debug/CMakeFiles/sehw4.dir/main.cpp.o"
+  "/Users/J/Desktop/sehw4-master/model.cpp" "/Users/J/Desktop/sehw4-master/cmake-build-debug/CMakeFiles/sehw4.dir/model.cpp.o"
+  "/Users/J/Desktop/sehw4-master/view.cpp" "/Users/J/Desktop/sehw4-master/cmake-build-debug/CMakeFiles/sehw4.dir/view.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "AppleClang")
 

@@ -23,9 +23,13 @@ void VoteViewUI::selectTerminatedVote(){
     voteController->showTerminatedVote();
 }
 
-void VoteViewUI::selectVote(){
-    VoteController* voteController = VoteController::getInstance();
-    voteController->getOngoingVoteDetails();
+void VoteViewUI::selectVote() {
+    int voteID;
+    cout << endl << "조회할 투표의 ID를 선택해주세요 : ";
+    cin >> voteID;
+
+    VoteController *voteController = VoteController::getInstance();
+    voteController->getOngoingVoteDetails(voteID);
 }
 
 void VoteViewUI::displayUI(){
@@ -280,12 +284,14 @@ void AddVoteUI::createNewVote(){
         cout << "로그인을 먼저 해주세요" << endl;
         return;
     }
+    Timer* timer = Timer::getInstance();
+
     string votetitle;
     int optionnum;
     string opt;
     list<string> option;
-    string stime;
-    string etime;
+    int stime;
+    int etime;
     cout << "******투표를 생성해주세요******" << endl;
     cout << "투표 주제를 선택하세요 : ";
     cin >> votetitle;
@@ -300,11 +306,18 @@ void AddVoteUI::createNewVote(){
     }
     cout << "투표 시작시간을 지정해주세요 : ";
     cin >> stime;
+    while(!timer->checkStartTime(stime)){
+        cout << "올바른 투표 시작시간을 지정해주세요 : ";
+        cin >> stime;
+    }
     cout << "투표 마감시간을 지정해주세요 :";
     cin >> etime;
+    while(!timer->checkRightTime(stime, etime)){
+        cout << "올바른 투표 마감시간을 지정해주세요 : ";
+        cin >> etime;
+    }
     VoteController* voteController = VoteController::getInstance();
     voteController->addNewVote(votetitle, optionnum, option, stime, etime);
-
 }
 
 //VoteController에 showVoteData 누락
@@ -318,3 +331,25 @@ void AddVoteUI::displayUI(){
     cout << "*입력 선택 : ";
 }
 void AddVoteUI::userInput(){}
+
+void TimerViewUI::selectCheckTime() {
+    Timer* Timer = Timer::getInstance();
+    Timer->checkCurrentTime();
+}
+
+void TimerViewUI::selectSetTime() {
+    int ymd;
+    int hm;
+    cout << "******현재 시간을 설정해주세요******" << endl;
+    cout << "날짜를 입력해주세요 : ";
+    cin >> ymd;
+    cout << "시간을 입력해주세요 : ";
+    cin >> hm;
+    Timer* Timer = Timer::getInstance();
+    Timer->setCurrentTime(ymd, hm);
+}
+
+void TimerViewUI::selectLocalTime() {
+    Timer* Timer = Timer::getInstance();
+    Timer->setLocalTime();
+}

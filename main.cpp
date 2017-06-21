@@ -11,6 +11,7 @@ using namespace std;
 void mainviewUI();
 
 void initControllers();
+void autoDelete();
 
 void mainmenuController(int num, int action){
     switch(action){
@@ -88,22 +89,21 @@ void mainmenuController(int num, int action){
             }
             break;
         case 6:
-            Timer Timer;
+            TimerViewUI TimerViewUI;
             switch(action){
                 case 1:
-                    Timer.checkEndTime();
+                    TimerViewUI.selectSetTime();
+                    break;
+                case 2:
+                    TimerViewUI.selectCheckTime();
+                    break;
+                case 3:
+                    TimerViewUI.selectLocalTime();
                     break;
             }
             break;
         case 7:
-            switch (action) {
-                case 1:
-                UserController::getInstance()->changeSession();
-                    break;
-                case 2:
-                UserController::getInstance()->changetoGuestSession();
-                    break;
-            }
+            ApplicationController::getInstance()->deleteVote();
             break;
         case 8:
             ApplicationController::getInstance()->terminateProcess();
@@ -153,6 +153,8 @@ void innermainveiwUI(int num){
             break;
         case 6:
             cout << "6.1 현재시간 설정" << endl;
+            cout << "6.2 현재시간 확인" << endl;
+            cout << "6.3 localtime" << endl;
             cout << "*입력 선택 : ";
             cin >> action;
             mainmenuController(num, action);
@@ -194,20 +196,24 @@ void initControllers() {
     UserController::getInstance();
     VoteController::getInstance();
     GroupController::getInstance();
-    //Timer::getInstance();
+    Timer::getInstance();
     ApplicationController::getInstance();
 }
 
-int main() {
-    /*auto t1 = Clock::now();
-     auto t2 = Clock::now();
-     cout << "Delta t2-t1: "
-               << std::chrono::duration_cast<std::chrono::nanoseconds>(t2 - t1).count()
-               << " nanoseconds" << std::endl;*/
+void autoDelete() {
+    Timer* timer = Timer::getInstance();
+    if(timer->getLocalOn())
+        timer->setLocalTime();
 
+    ApplicationController* ac = ApplicationController::getInstance();
+    ac->deleteVote();
+}
+
+int main() {
     initControllers();
 
-    while(true) {
+    while (true) {
+        autoDelete();
         mainviewUI();
     }
 }
