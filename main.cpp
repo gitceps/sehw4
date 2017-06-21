@@ -48,6 +48,8 @@ void mainmenuController(int num, int action){
                 case 1:
                     AddVoteUI.selectSuggestVote();
                     break;
+                default:
+                    break;
             }
             break;
         case 4:
