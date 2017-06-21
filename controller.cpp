@@ -45,6 +45,8 @@ bool UserController::isValidUser(string userName, string password){
                 return false;
             }
             else {
+                ucInstance->currentUser = new User(userName);
+                ucInstance->currentUser->authenticateUser();
                 return true;
             }
         }
@@ -61,9 +63,6 @@ void UserController::validateUserInfo(string userName, string password) {
     bool ivu;
     ivu = isValidUser(userName,password);
     if(ivu == true){
-        ucInstance->currentUser = new User(userName);
-        ucInstance->currentUser->authenticateUser();
-
         UserViewUI UserViewUI;
         UserViewUI.showLoginResultMessage();
     }
