@@ -163,6 +163,7 @@ void GroupViewUI::groupDataInput(){
     overlapChk = groupController->getOverlapCheck(groupName);
     if (overlapChk == 0){
         groupController->setGroupData(creatorName,groupID,groupName);
+        groupController->setCurrentUserGroup(groupID);
         cout << "그룹 생성이 완료되었습니다" << endl << endl;
     }
     else
@@ -204,7 +205,7 @@ void VoteDetailUI::selectItem(){
 
     voteController->saveItemData(voteID, result[index]);
 
-    cout << index << "번 항목에 투표 하였습니다" << endl << endl;
+    cout << index + 1 << "번 항목에 투표 하였습니다" << endl << endl;
 }
 void VoteDetailUI::selectDelete(){}
 void VoteDetailUI::displayUI(){}

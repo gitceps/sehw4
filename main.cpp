@@ -1,3 +1,8 @@
+//
+// Created : 2017. 6. 16..
+// Author : 김유광, 최준성, 김지현, 백지홍
+//
+
 #include <iostream>
 #include "model.h"
 #include "controller.h"

@@ -1,5 +1,8 @@
 //
-// Created by 최준성 on 2017. 6. 16..
+// Class : UserControlller, VoteController, GroupController
+// Description : 프로그램의 실질적인 연산 및 처리를 담당하는 Control 클래스들이 정의 되어 있다
+// Created : 2017. 6. 16..
+// Author : 최준성
 //
 
 #ifndef SEHW4_CONTROLLER_H
