@@ -13,7 +13,7 @@ using namespace mysqlpp;
 #define DBNAME "sys"
 #define SERVER "localhost"
 #define USER "root"
-#define PASSWORD "shin0707"
+#define PASSWORD ""
 
 void setTimeFormat(int ftime);
 
@@ -366,11 +366,12 @@ void VoteController::showOngoingVote(){
         con.connect(DBNAME, SERVER, USER, PASSWORD);
 
         UserController* userController = UserController::getInstance();
-        string userName = userController->getCurrentUser()->getUserName();
         if(userController->getCurrentUser() == NULL) {
             cout << "로그인을 먼저 해주세요" << endl;
             return;
         }
+        string userName = userController->getCurrentUser()->getUserName();
+
         Timer* timer = Timer::getInstance();
 
         int row_check = 0;
@@ -429,11 +430,11 @@ void VoteController::showScheduleVote(){
         con.connect(DBNAME, SERVER, USER, PASSWORD);
 
         UserController* userController = UserController::getInstance();
-        string userName = userController->getCurrentUser()->getUserName();
         if(userController->getCurrentUser() == NULL) {
             cout << "로그인을 먼저 해주세요" << endl;
             return;
         }
+        string userName = userController->getCurrentUser()->getUserName();
         Timer* timer = Timer::getInstance();
 
         string temp = "select distinct groupID from sys.user, sys.group where (user_groupID = groupName) and userName = '";
@@ -485,11 +486,11 @@ void VoteController::showTerminatedVote(){
         con.connect(DBNAME, SERVER, USER, PASSWORD);
 
         UserController* userController = UserController::getInstance();
-        string userName = userController->getCurrentUser()->getUserName();
         if(userController->getCurrentUser() == NULL) {
             cout << "로그인을 먼저 해주세요" << endl;
             return;
         }
+        string userName = userController->getCurrentUser()->getUserName();
         Timer* timer = Timer::getInstance();
 
         string temp = "select distinct groupID from sys.user, sys.group where (user_groupID = groupName) and userName = '";
