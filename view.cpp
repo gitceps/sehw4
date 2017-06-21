@@ -5,9 +5,17 @@
 #include "view.h"
 #include "model.h"
 #include "controller.h"
+#include <unistd.h>
 #include <iostream>
+#include <vector>
 
 using namespace std;
+
+bool check_email(string const& address) {
+    size_t at_index = address.find_first_of('@', 0);
+    return at_index != string::npos
+           && address.find_first_of('.', at_index) != std::string::npos;
+}
 
 //VoteViewUI
 void VoteViewUI::selectOngoingVote(){
@@ -54,15 +62,14 @@ void GroupViewUI::leaveGroup(){
     }
     userController->removeUserFromGroup();
     GroupController* groupController = GroupController::getInstance();
+
+    if((groupController->getCurrentUserGroup() == NULL) || (groupController->getCurrentUserGroup()->getGroupId() == -1)) {
+        cout << "가입된 그룹이 없습니다" << endl;
+        return;
+    }
+
     groupController->setCurrentUserGroup(-1);
-    cout << "그룹 탈퇴가 완료되었습니다" << endl;
-//    int cUP;
-//    GroupMember GroupMember;
-//    cUP = GroupMember.checkUserPermission();
-//    if(cUP == 1)
-//        GroupMember.removeGroupFromUser();
-//    else
-//        return;
+    cout << "그룹 탈퇴가 완료되었습니다" << endl << endl;
 }
 
 void GroupViewUI::updateUI(){}
@@ -78,7 +85,8 @@ void GroupViewUI::viewMyGroup(){
     if(groupController->getCurrentUserGroup() == NULL) {
         cout << "가입된 그룹이 없습니다" << endl;
     } else {
-        cout << "현재 그룹 : " << groupController->getCurrentUserGroup()->getGroupId() << endl;
+
+        cout << "현재 그룹 : " << groupController->getCurrentUserGroup()->getGroupId() << endl << endl;
     }
 //    GroupMember GroupMember;
 //    GroupMember.getGroupID();
@@ -87,22 +95,35 @@ void GroupViewUI::viewMyGroup(){
 }
 
 void GroupViewUI::showAllGroupList(){
+    UserController *userController = UserController::getInstance();
+    if(userController->getCurrentUser() == NULL) {
+        cout << "로그인을 먼저 해주세요" << endl;
+        return;
+    }
     GroupController* groupController = GroupController::getInstance();
     groupController->showAllGroup();
 }
+
 void GroupViewUI::joinGroup(){
     UserController* userController = UserController::getInstance();
     if(userController->getCurrentUser() == NULL) {
         cout << "로그인을 먼저 해주세요" << endl;
         return;
     }
-    GroupController::getInstance()->showAllGroup();
+
+    GroupController* groupController = GroupController::getInstance();
+    if(groupController->getCurrentUserGroup() != NULL) {
+        cout << "이미 다른 그룹에 가입되어 있습니다" << endl;
+        return;
+    }
+
+    groupController->showAllGroup();
     string userName = userController->getCurrentUser()->getUserName();
     int groupID = 0;
     cout << "가입할 그룹 ID를 입력해주세요" << endl;
     cin >> groupID;
-    GroupController* groupController = GroupController::getInstance();
     groupController->joinGroup(userName, groupID);
+    cout << "그룹 가입이 완료되었습니다" << endl;
 }
 void GroupViewUI::requestCreateGroup(){
     int num;
@@ -145,14 +166,15 @@ void GroupViewUI::groupDataInput(){
     overlapChk = groupController->getOverlapCheck(groupName);
     if (overlapChk == 0){
         groupController->setGroupData(creatorName,groupID,groupName);
-        cout << "그룹 생성이 완료되었습니다" << endl;
+        groupController->setCurrentUserGroup(groupID);
+        cout << "그룹 생성이 완료되었습니다" << endl << endl;
     }
     else
         overlapError();
 
 }
 void GroupViewUI::overlapError(){
-    cout << "중복된 그룹명입니다." << endl;
+    cout << "중복된 그룹명입니다." << endl << endl;
     return;
 }
 
@@ -169,28 +191,45 @@ void GroupViewUI::userInput(){}
 void VoteDetailUI::selectItem(){
     int voteID, index;
 
+    vector<int> result;
     VoteController* voteController = VoteController::getInstance();
     voteController->showOngoingVote();
-    cout << "투표할 안건을 선택하세요" << endl;
+    cout << "투표할 안건을 선택하세요(voteID)" << endl;
     cin >> voteID;
+    result = voteController->getOngoingVoteDetails(voteID);
     cout << "투표할 선택지 번호를 입력하세요" << endl;
     cin >> index;
-    voteController->saveItemData(voteID, index);
+
+    index = index - 1;
+    if(index < 0 || index > result.size()) {
+        cout << "유효한 선택지가 아닙니다" << endl << endl;
+        return;
+    }
+
+    voteController->saveItemData(voteID, result[index]);
+
+    cout << index + 1 << "번 항목에 투표 하였습니다" << endl << endl;
 }
 void VoteDetailUI::selectDelete(){}
 void VoteDetailUI::displayUI(){}
 void VoteDetailUI::userInput(){}
 
 void UserViewUI::login(){
+
+    UserController *userController = UserController::getInstance();
+    if(userController->getCurrentUser() != NULL) {
+        cout << "이미 로그인이 되었습니다 : " << userController->getCurrentUser()->getUserName() << endl;
+        return;
+    }
+
     string userName;
     string psw;
     cout << "ID를 입력하세요" << endl;
     cin >> userName;
-    cout << "Password를 입력하세요" << endl;
-    cin >> psw;
-    UserController *userController = UserController::getInstance();
-    userController->validateUserInfo(userName,psw);
 
+    psw = getpass("Password를 입력하세요\n");
+
+    userController->validateUserInfo(userName,psw);
 }
 
 void UserViewUI::logout(){
@@ -198,10 +237,15 @@ void UserViewUI::logout(){
     User User;
     userID = User.getUserID();
     UserController *userController = UserController::getInstance();
+    if(userController->getCurrentUser() == NULL) {
+        cout << "로그인을 먼저 해주세요" << endl;
+        return;
+    }
     userController->deleteUserSession(userID);
+    cout << "정상적으로 로그아웃 되었습니다" << endl << endl;
 }
 void UserViewUI::showLoginResultMessage(){
-    cout << "로그인되었습니다" << endl;
+    cout << "로그인되었습니다" << endl << endl;
 }
 
 void UserViewUI::requestCreateUser(){
@@ -232,45 +276,46 @@ void UserViewUI::userDataInput(){
     string email;
     string address;
     bool overlapChk;
-    int errorchk = 0;
-    try{
-        if(cin.fail()) {
-            cin.clear();
-            cin.ignore(256,'\n');
-            throw errorchk;
 
-        }
-        cout << "회원가입에 필요한 정보를 입력하세요" << endl;
-        cout << "ID를 입력하세요" << endl;
-        cin >> userName;
-        cout << "Password를 입력하세요" << endl;
-        cin >> psw;
-        cout << "이름을 입력하세요" << endl;
-        cin >> userRName;
-        cout << "주민번호를 입력하세요" << endl;
-        cin >> icn;
-        cout << "이메일 주소를 입력하세요" << endl;
-        cin >> email;
-        cout << "주소를 입력하세요" << endl;
-        cin >> address;
+    cout << "회원가입에 필요한 정보를 입력하세요" << endl;
+    cout << "ID를 입력하세요" << endl;
+    cin >> userName;
 
-        UserController* userController = UserController::getInstance();
-        overlapChk = userController->getOverlapCheck(userName);
-        //overlapchk가 1이면 중복
-        if (!overlapChk){
-            cout << "회원가입이 완료되었습니다" << endl;
-            userController->setUserData(userID, userName, psw, userRName,email,address,icn);
-        }
-        else
-            overlapError();
-    }catch(int errorchk){
-        cout<< "경고 : 올바른 입력형식이 아닙니다" << endl;
+    psw = getpass("Password를 입력하세요\n");
+
+    cout << "이름을 입력하세요" << endl;
+    cin >> userRName;
+
+    cout << "주민번호를 입력하세요" << endl;
+    cin >> icn;
+    if(icn.length() != 13) {
+        cout << "주민번호는 13자리이어야 합니다" << endl;
+        return;
     }
 
+    cout << "이메일 주소를 입력하세요" << endl;
+    cin >> email;
+    if(!check_email(email)) {
+        cout << "올바른 이메일 형식이 아닙니다" << endl;
+        return;
+    }
 
+    cout << "주소를 입력하세요" << endl;
+    cin >> address;
+
+    UserController* userController = UserController::getInstance();
+    overlapChk = userController->getOverlapCheck(userName);
+    //overlapchk가 1이면 중복
+    if (!overlapChk){
+        cout << "회원가입이 완료되었습니다" << endl << endl;
+        userController->setUserData(userID, userName, psw, userRName,email,address,icn);
+    }
+    else
+        overlapError();
 }
+
 void UserViewUI::overlapError(){
-    cout << "중복된 아이디 입니다." << endl;
+    cout << "중복된 아이디 입니다." << endl << endl;
     return;
 }
 
@@ -368,6 +413,11 @@ void AddVoteUI::createNewVote(){
 
 //VoteController에 showVoteData 누락
 void AddVoteUI::selectSuggestVote(){
+    UserController *userController = UserController::getInstance();
+    if(userController->getCurrentUser() == NULL) {
+        cout << "로그인을 먼저 해주세요" << endl;
+        return;
+    }
     VoteController* voteController = VoteController::getInstance();
     voteController->showVoteData();
 

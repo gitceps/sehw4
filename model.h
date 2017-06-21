@@ -1,5 +1,9 @@
 //
-// Created by 최준성 on 2017. 6. 16..
+// Class : Vote, User, Group
+// Description : 투표 정보를 나타낼 수 있는 Vote, 현재 회원 정보를 나타내는 User, 그룹 정보를 나타내는 Group 등의
+//               Entity 클래스들이 정의되어있다
+// Created : 2017. 6. 16..
+// Author : 최준성
 //
 
 #ifndef SEHW4_MODEL_H

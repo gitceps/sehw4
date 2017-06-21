@@ -1,5 +1,8 @@
 //
-// Created by 최준성 on 2017. 6. 16..
+// Class : UserControlller, VoteController, GroupController
+// Description : 프로그램의 실질적인 연산 및 처리를 담당하는 Control 클래스들이 정의 되어 있다
+// Created : 2017. 6. 16..
+// Author : 최준성
 //
 
 #ifndef SEHW4_CONTROLLER_H
@@ -60,7 +63,7 @@ public:
     void saveItemData(int voteID, int index);
     void deleteVote(int voteID);
     list<Vote> getTerminatedVoteDetails();
-    void getOngoingVoteDetails(int voteID);
+    vector<int> getOngoingVoteDetails(int voteID);
     list<Vote> getScheduledVoteDetails();
     void checkVote();
     void showVoteData(); // 시퀀스 다이어 그램에 있으나 클래스 다이어 그램에 빠져있음

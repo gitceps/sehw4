@@ -1,3 +1,8 @@
+//
+// Created : 2017. 6. 16..
+// Author : 김유광, 최준성, 김지현, 백지홍
+//
+
 #include <iostream>
 #include "model.h"
 #include "controller.h"
@@ -48,6 +53,8 @@ void mainmenuController(int num, int action){
             switch(action) {
                 case 1:
                     AddVoteUI.selectSuggestVote();
+                    break;
+                default:
                     break;
             }
             break;
@@ -212,7 +219,6 @@ void mainviewUI(){
     }
 
 
-
 void initControllers() {
     UserController::getInstance();
     VoteController::getInstance();
@@ -232,6 +238,7 @@ void autoDelete() {
 
 int main() {
     initControllers();
+
     while (true) {
         autoDelete();
         mainviewUI();

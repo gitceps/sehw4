@@ -6,6 +6,7 @@
 #include "view.h"
 
 #include <iostream>
+#include <vector>
 #include <mysql++/mysql++.h>
 using namespace std;
 using namespace mysqlpp;
@@ -26,13 +27,19 @@ UserController* UserController::getInstance(){
         return ucInstance;
 }
 
+bool is_email(string const& address) {
+    size_t at_index = address.find_first_of('@', 0);
+    return at_index != std::string::npos
+           && address.find_first_of('.', at_index) != std::string::npos;
+}
+
 bool UserController::isValidUser(string userName, string password){
     Connection con(true);
     try {
         con.connect(DBNAME, SERVER, USER, PASSWORD);
         //cout << "connected to database" << endl;
 
-        string temp = "SELECT distinct * FROM sys.user, sys.group where sys.user.user_groupID = sys.group.groupName and userName = '";
+        string temp = "SELECT distinct * FROM sys.user where userName = '";
         temp += userName;
         temp += "' and password = '";
         temp += password;
@@ -47,15 +54,30 @@ bool UserController::isValidUser(string userName, string password){
                 return false;
             }
             else {
+
                 ucInstance->currentUser = new User(userName);
                 ucInstance->currentUser->authenticateUser();
 
-                GroupController *groupController = GroupController::getInstance();
-                groupController->setCurrentUserGroup(res[0]["groupID"]);
-                return true;
+                string temp2 = "select groupID from sys.group where groupName = '";
+                temp2 += res[0]["user_groupID"].data();
+                temp2 += "'";
+
+                Query query2 = con.query(temp2);
+                mysqlpp::StoreQueryResult res2 = query2.store();
+
+                if (res2) {
+                    if (res2.num_rows() == 0) {
+                    } else {
+                        GroupController *groupController = GroupController::getInstance();
+                        groupController->setCurrentUserGroup(res2[0]["groupID"]);
+                    }
+                    return true;
+                } else {
+                    cerr << query2.error() << endl;
+                    return false;
+                }
             }
-        }
-        else {
+        } else {
             cerr << query.error() << endl;
             return false;
         }
@@ -72,7 +94,7 @@ void UserController::validateUserInfo(string userName, string password) {
         UserViewUI.showLoginResultMessage();
     }
     else {
-        cout << "로그인 정보가 올바르지 않습니다" << endl;
+        cout << "로그인 정보가 올바르지 않습니다" << endl << endl;
         return;
     }
 
@@ -83,8 +105,10 @@ User* UserController::getCurrentUser() {
 }
 
 void UserController::deleteUserSession(int userID){
-    User User;
-    User.changeUserStatus();
+    //delete currentUser;
+    currentUser = NULL;
+    GroupController* groupController = GroupController::getInstance();
+    groupController->setCurrentUserGroup(-1);
 }
 
 void UserController::createUser(){
@@ -181,8 +205,7 @@ void UserController::deleteUser(string userName){
         cout << e.what() << endl;
     }
 
-    cout << "회원 탈퇴가 완료 되었습니다" << endl;
-
+    cout << "회원 탈퇴가 완료 되었습니다" << endl << endl;
 }
 
 void UserController::removeUserFromGroup() {
@@ -227,7 +250,9 @@ void GroupController::setCurrentUserGroup(int groupID) {
     if(currentUserGroup == NULL) {
         currentUserGroup = new Group(groupID);
     } else if(groupID == -1) {
-        delete currentUserGroup;
+
+        //delete currentUserGroup;
+        currentUserGroup = NULL;
     }
 }
 
@@ -242,15 +267,15 @@ void GroupController::showAllGroup(){
         mysqlpp::StoreQueryResult res = query.store();
 
         if (res) {
-            // Display header
-            cout.setf(ios::left);
-            cout << "  groupID" << setw(19) << " " << "groupName" << setw(19) << " " << "groupCreatorID" << endl << endl;
-            cout << "============================" << endl;
+            cout << endl;
+            cout << "전체 그룹 조회 " << endl;
+            cout << "----------------------------" << endl;
+
             // Get each row in result set, and print its contents
             for (size_t i = 0; i < res.num_rows(); ++i) {
-                cout << "  " << res[i]["groupID"] <<  setw(20) << "   " << res[i]["groupName"] << setw(20) << "   " << res[i]["groupCreatorID"]<< endl;
+                cout << "groupID :  " << res[i]["groupID"] << ", groupName : : " << res[i]["groupName"] << ", groupCreatorID : " << res[i]["groupCreatorID"]<< endl;
             }
-            cout << "============================" << endl;
+            cout << "----------------------------" << endl;
         }
         else {
             cerr << query.error() << endl;
@@ -275,7 +300,6 @@ void GroupController::joinGroup(string userName, int groupID){
         string temp = "select groupName from sys.group where groupID = '";
         temp += to_string(groupID);
         temp += "'";
-        cout << temp << endl;
 
         Query query = con.query(temp);
         mysqlpp::StoreQueryResult res = query.store();
@@ -284,6 +308,23 @@ void GroupController::joinGroup(string userName, int groupID){
         if (res) {
             if(res.num_rows() != 0) {
 
+                string temp2 = "update sys.user set user_groupID = '";
+                temp2  += res[0]["groupName"].data();
+                temp2  += "' where userName = '";
+                temp2 += userName;
+                temp2 += "'";
+
+                Query query2 = con.query(temp2);
+                mysqlpp::StoreQueryResult res2 = query2.store();
+                cout << "adsfadfdsaf"<<endl;
+                GroupController *groupController = GroupController::getInstance();
+                groupController->setCurrentUserGroup(groupID);
+                if (res2) {
+
+                } else {
+                    cerr << query2.error() << endl;
+                    return;
+                }
             }
             else {
                 cout << "해당하는 그룹 ID가 없습니다" << endl;
@@ -292,22 +333,6 @@ void GroupController::joinGroup(string userName, int groupID){
         }
         else {
             cerr << query.error() << endl;
-            return;
-        }
-
-        string temp2 = "update sys.user set user_groupID = '";
-        temp2  += res[0]["groupName"].data();
-        temp2  += "' where userName = '";
-        temp2 += userName;
-        temp2 += "'";
-        cout << temp2 << endl;
-
-        Query query2 = con.query(temp2);
-        mysqlpp::StoreQueryResult res2 = query2.store();
-        if (res2) {
-
-        } else {
-            cerr << query2.error() << endl;
             return;
         }
     } catch(Exception &e) {
@@ -438,9 +463,8 @@ void VoteController::showOngoingVote(){
         if (res2) {
 
             cout << endl;
-            cout << "향후 진행 예정 투표 조회 " << endl;
+            cout << "현재 진행 중 투표 조회 " << endl;
             cout << "----------------------------" << endl;
-
 
             // Get each row in result set, and print its contents
             for (size_t i = 0; i < res2.num_rows(); ++i) {
@@ -592,7 +616,7 @@ void VoteController::saveItemData(int voteID, int index){
         temp += "' and voteItemID = '";
         temp += to_string(index);
         temp += "'";
-        cout << temp << endl;
+//        cout << temp << endl;
 
         Query query = con.query(temp);
         mysqlpp::StoreQueryResult res = query.store();
@@ -617,7 +641,8 @@ void VoteController::deleteVote(int voteID){
         string temp = "delete from sys.vote where voteID = '";
         temp += to_string(voteID);
         temp += "'";
-        cout << temp << endl;
+
+//        cout << temp << endl;
 
         Query query = con.query(temp);
         mysqlpp::StoreQueryResult res = query.store();
@@ -658,7 +683,9 @@ list<Vote> VoteController::getTerminatedVoteDetails(){
     list<Vote> Vote;
     return Vote;
 }
-void VoteController::getOngoingVoteDetails(int voteID) {
+
+vector<int> VoteController::getOngoingVoteDetails(int voteID) {
+    vector<int> v;
     Connection con(true);
     try {
         con.connect(DBNAME, SERVER, USER, PASSWORD);
@@ -684,7 +711,8 @@ void VoteController::getOngoingVoteDetails(int voteID) {
 
             if (res2) {
                 for (size_t i = 0; i < res2.num_rows(); ++i) {
-                    cout << i+1 << "번 : " << res2[i]["itemName"] << ", 선택지 번호 : " << res2[i]["voteItemID"] << endl;
+                    cout << i+1 << "번 : " << res2[i]["itemName"] << endl;
+                    v.push_back(res2[i]["voteItemID"]);
                 }
                 cout << "----------------------------" << endl;
             } else {
@@ -694,6 +722,7 @@ void VoteController::getOngoingVoteDetails(int voteID) {
             cout << "투표 마감시간 : ";
             setTimeFormat(res[0]["endTime"]);
             cout << endl;
+            return v;
         } else {
             cerr << query.error() << endl;
         }
