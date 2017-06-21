@@ -24,6 +24,7 @@ public:
     void validateUserInfo(string userName, string password);
     void deleteUserSession(int userID);
     void createUser();
+    void removeUserFromGroup();
     bool getOverlapCheck(string userName);
     void setUserData(string userID, string userName, string password, string userRealName,string email, string address, string idCardNumber);
     void deleteUser(string userName);
@@ -31,10 +32,13 @@ public:
 
 class GroupController{
 private:
+    Group *currentUserGroup = NULL;
     static GroupController *gcInstance;
     GroupController(){};
 public:
     static GroupController* getInstance();
+    Group* getCurrentUserGroup();
+    void setCurrentUserGroup(int groupID);
     void showAllGroup();
     void joinGroup(string userName, int groupID);
     void createGroup();

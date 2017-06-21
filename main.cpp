@@ -39,6 +39,7 @@ void mainmenuController(int num, int action){
                     break;
                 case 2:
                     UserViewUI.logout();
+                    ApplicationController::getInstance()->terminateProcess();
                     break;
             }
             break;

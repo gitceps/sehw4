@@ -60,6 +60,9 @@ void GroupMember::removeGroupFromUser(){
 int GroupMember::getGroupID(){ return groupID;}
 
 //Group
+Group::Group(int groupID) {
+    this->groupID = groupID;
+}
 void Group::removeUserFromGroup(int userID){}
 list<int> Group::getGroupInfo(){ return getGroupInfo();}
 int Group::getGroupId(){return groupID; }

@@ -71,6 +71,7 @@ private:
     string groupName;
 
 public:
+    Group(int groupID);
     void removeUserFromGroup(int userID);
     list<int> getGroupInfo();
     int getGroupId();

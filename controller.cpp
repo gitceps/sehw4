@@ -32,7 +32,7 @@ bool UserController::isValidUser(string userName, string password){
         con.connect(DBNAME, SERVER, USER, PASSWORD);
         //cout << "connected to database" << endl;
 
-        string temp = "select * from user where userName = '";
+        string temp = "SELECT distinct * FROM sys.user, sys.group where sys.user.user_groupID = sys.group.groupName and userName = '";
         temp += userName;
         temp += "' and password = '";
         temp += password;
@@ -49,6 +49,9 @@ bool UserController::isValidUser(string userName, string password){
             else {
                 ucInstance->currentUser = new User(userName);
                 ucInstance->currentUser->authenticateUser();
+
+                GroupController *groupController = GroupController::getInstance();
+                groupController->setCurrentUserGroup(res[0]["groupID"]);
                 return true;
             }
         }
@@ -182,6 +185,29 @@ void UserController::deleteUser(string userName){
 
 }
 
+void UserController::removeUserFromGroup() {
+    Connection con(true);
+    try {
+        con.connect(DBNAME, SERVER, USER, PASSWORD);
+
+        string temp = "update sys.user set user_groupID = null where userName = '";
+        temp += currentUser->getUserName();
+        temp += "'";
+        //cout << temp << endl;
+
+        Query query = con.query(temp);
+        mysqlpp::StoreQueryResult res = query.store();
+
+        if (res) {
+        } else {
+            cerr << query.error() << endl;
+        }
+    }  catch (Exception &e) {
+        cout << e.what() << endl;
+    }
+    return;
+}
+
 
 //GroupController
 GroupController* GroupController::gcInstance = NULL;
@@ -190,6 +216,19 @@ GroupController* GroupController::getInstance(){
         gcInstance = new GroupController();
     else
         return gcInstance;
+}
+
+Group* GroupController::getCurrentUserGroup() {
+
+    return currentUserGroup;
+}
+
+void GroupController::setCurrentUserGroup(int groupID) {
+    if(currentUserGroup == NULL) {
+        currentUserGroup = new Group(groupID);
+    } else if(groupID == -1) {
+        delete currentUserGroup;
+    }
 }
 
 //getGroupInfo 시퀀스와 일치하지 않음
@@ -397,19 +436,20 @@ void VoteController::showOngoingVote(){
         mysqlpp::StoreQueryResult res2 = query2.store();
 
         if (res2) {
-            // Display header
-            cout.setf(ios::left);
-            cout << setw(15) << "voteID" << setw(20) << "Title" << setw(15) << "Creator" << setw(15) << "options" << endl << endl;
+
+            cout << endl;
+            cout << "향후 진행 예정 투표 조회 " << endl;
+            cout << "----------------------------" << endl;
+
 
             // Get each row in result set, and print its contents
             for (size_t i = 0; i < res2.num_rows(); ++i) {
                 if (!timer->checkStartTime(res2[i]["startTime"]) && !timer->checkEndTime(res2[i]["endTime"])) {
-                    cout << setw(15) << res2[i]["voteID"] << setw(20) << res2[i]["title"] << setw(15)
-                         << res2[i]["voteCreatorID"] << setw(15) << res2[i]["optionNum"] << endl;
-                    row_check++;
+                    cout << "voteID : " << res2[i]["voteID"] << ", title: " << res2[i]["title"] << ", voteCreatorID : "
+                         << res2[i]["voteCreatorID"] << ", optionNum : "<< res2[i]["optionNum"] << endl;
                 }
             }
-            cout << "============================" << endl;
+            cout << "----------------------------" << endl;
 
             if(row_check == 0)
                 return;
@@ -458,18 +498,19 @@ void VoteController::showScheduleVote(){
         mysqlpp::StoreQueryResult res2 = query2.store();
 
         if (res2) {
-            // Display header
-            cout.setf(ios::left);
-            cout << setw(15) << "voteID" << setw(15) << "Title" << setw(15) << "Creator" << setw(15) << "options" << endl << endl;
+            cout << endl;
+            cout << "향후 진행 예정 투표 조회 " << endl;
+            cout << "----------------------------" << endl;
+
 
             // Get each row in result set, and print its contents
             for (size_t i = 0; i < res2.num_rows(); ++i) {
                 if (timer->checkStartTime(res2[i]["startTime"])) {
-                    cout << setw(15) << res2[i]["voteID"] << setw(15) << res2[i]["title"] << setw(15)
-                         << res2[i]["voteCreatorID"] << setw(15) << res2[i]["optionNum"] << endl;
+                    cout << "voteID : " << res2[i]["voteID"] << ", title: " << res2[i]["title"] << ", voteCreatorID : "
+                         << res2[i]["voteCreatorID"] << ", optionNum : "<< res2[i]["optionNum"] << endl;
                 }
             }
-            cout << "============================" << endl;
+            cout << "----------------------------" << endl;
         }
         else {
             cerr << query2.error() << endl;
@@ -514,18 +555,19 @@ void VoteController::showTerminatedVote(){
         mysqlpp::StoreQueryResult res2 = query2.store();
 
         if (res2) {
-            // Display header
-            cout.setf(ios::left);
-            cout << setw(15) << "voteID" << setw(15) << "Title" << setw(15) << "Creator" << setw(15) << "options" << endl << endl;
+            cout << endl;
+            cout << "종료 투표 조회 " << endl;
+            cout << "----------------------------" << endl;
+
 
             // Get each row in result set, and print its contents
             for (size_t i = 0; i < res2.num_rows(); ++i) {
                 if (timer->checkEndTime(res2[i]["endTime"])) {
-                    cout << setw(15) << res2[i]["voteID"] << setw(15) << res2[i]["title"] << setw(15)
-                         << res2[i]["voteCreatorID"] << setw(15) << res2[i]["optionNum"] << endl;
+                    cout << "voteID : " << res2[i]["voteID"] << ", title: " << res2[i]["title"] << ", voteCreatorID : "
+                         << res2[i]["voteCreatorID"] << ", optionNum : "<< res2[i]["optionNum"] << endl;
                 }
             }
-            cout << "============================" << endl;
+            cout << "----------------------------" << endl;
         }
         else {
             cerr << query2.error() << endl;

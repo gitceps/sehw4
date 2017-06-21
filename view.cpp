@@ -46,24 +46,44 @@ void VoteViewUI::userInput(){}
 //User 객체를 생성하는 것 보단 GroupMember 객체를 생성하는 것이 좋아보임
 //시퀀스 그림 이상 코드의 흐름과 불일치
 void GroupViewUI::leaveGroup(){
-    int cUP;
-    GroupMember GroupMember;
-    cUP = GroupMember.checkUserPermission();
-    if(cUP == 1)
-        GroupMember.removeGroupFromUser();
-    else
+
+    UserController* userController = UserController::getInstance();
+    if(userController->getCurrentUser() == NULL) {
+        cout << "로그인을 먼저 해주세요" << endl;
         return;
+    }
+    userController->removeUserFromGroup();
+    GroupController* groupController = GroupController::getInstance();
+    groupController->setCurrentUserGroup(-1);
+    cout << "그룹 탈퇴가 완료되었습니다" << endl;
+//    int cUP;
+//    GroupMember GroupMember;
+//    cUP = GroupMember.checkUserPermission();
+//    if(cUP == 1)
+//        GroupMember.removeGroupFromUser();
+//    else
+//        return;
 }
 
 void GroupViewUI::updateUI(){}
 
 //User 객체를 생성하는 것이 아닌 GroupMember 객체를 생성해야함
 void GroupViewUI::viewMyGroup(){
-
-    GroupMember GroupMember;
-    GroupMember.getGroupID();
-    Group Group;
-    Group.getGroupInfo();
+    UserController* userController = UserController::getInstance();
+    if(userController->getCurrentUser() == NULL) {
+        cout << "로그인을 먼저 해주세요" << endl;
+        return;
+    }
+    GroupController* groupController = GroupController::getInstance();
+    if(groupController->getCurrentUserGroup() == NULL) {
+        cout << "가입된 그룹이 없습니다" << endl;
+    } else {
+        cout << "현재 그룹 : " << groupController->getCurrentUserGroup()->getGroupId() << endl;
+    }
+//    GroupMember GroupMember;
+//    GroupMember.getGroupID();
+//    Group Group;
+//    Group.getGroupInfo();
 }
 
 void GroupViewUI::showAllGroupList(){
